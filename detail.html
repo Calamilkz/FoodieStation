@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รายละเอียดร้านอาหาร - Foodie Station</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="home.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="home.html" class="brand-link">
+                <h1 class="brand-title">Foodie<span>Station</span></h1>
+            </a>
+            <div class="user-menu">
+                <a href="index.html" id="guestLoginBtnUI" class="btn-login-outline" style="display: none;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    เข้าสู่ระบบ
+                </a>
+
+                <div id="loggedInUserUI" class="user-profile-section" style="display: none;">
+                    <span id="userPointsDisplay" class="user-points">กำลังโหลด...</span>
+                    <span id="userNameDisplay" style="font-weight: 500; color: #6f4e37; margin-right: 5px;"></span>
+                    <img src="https://ui-avatars.com/api/?name=User&background=d2a679&color=fff" id="userAvatar" alt="User" class="avatar">
+                    <button id="logoutBtn" style="background: transparent; border: 1px solid #d2a679; color: #8b5a2b; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-family: 'Kanit'; margin-left: 10px;">ออกจากระบบ</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-layout" style="display: block; max-width: 900px;">
+        <div class="detail-layout">
+            <div class="detail-header-imgs">
+                <img id="detailMainImg" src="" alt="Loading...">
+            </div>
+            
+            <div class="detail-body-split">
+                
+                <div class="detail-main-col">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 10px;">
+                        <h1 id="detailName" class="detail-title" style="margin-bottom: 0;">กำลังโหลดข้อมูล...</h1>
+                        <button id="bookmarkBtn" class="bookmark-btn" style="display: none;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+                            <span>บันทึกร้าน</span>
+                        </button>
+                    </div>
+                    
+                    <div class="detail-meta-row">
+                        <span id="detailRating" class="detail-rating"></span>
+                        <span id="detailCuisine" class="tag"></span>
+                    </div>
+                    <p id="detailDesc" class="detail-description"></p>
+                    
+                    <hr class="divider">
+                    
+                    <div class="gallery-section">
+                        <h3 style="display: flex; align-items: center; gap: 8px;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                            รูปภาพเพิ่มเติมจากผู้ใช้
+                        </h3>
+                        <div id="detailGalleryGrid" class="gallery-grid"></div>
+                        <div style="display: flex; gap: 10px; margin-top: 15px;">
+                            <button id="addPhotoBtn" class="btn-outline">+ เพิ่มรูปภาพร้านนี้</button>
+                            <button id="managePhotoBtn" class="btn-outline" style="border-color: #e63946; color: #e63946;">แก้ไขรูปภาพ</button>
+                        </div>
+                    </div>
+
+                    <hr class="divider">
+
+                    <div class="review-section">
+                        <h3 style="display: flex; align-items: center; gap: 8px;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                            รีวิวจากผู้ใช้ (<span id="reviewCount">0</span>)
+                        </h3>
+                        
+                        <div class="rating-summary-box">
+                            <div class="rating-score-big">
+                                <span id="avgScoreBig">5.0</span>
+                                <p>จาก 5 คะแนน</p>
+                            </div>
+                            <div class="rating-stats">
+                                <p>คะแนนรีวิวจากผู้ใช้งานจริง</p>
+                                <p style="font-size: 0.9rem; color: #8c8c8c; font-weight: 400;">อิงจากความพึงพอใจของลูกค้าที่มาใช้บริการ</p>
+                            </div>
+                        </div>
+
+                        <div class="write-review-box">
+                            <h4 style="text-align: center; margin-bottom: 10px; color: #4a4a4a;">ให้คะแนนร้านนี้</h4>
+                            <form id="reviewForm">
+                                <div class="star-rating-input" id="starRatingInput">
+                                    <span data-value="1">★</span>
+                                    <span data-value="2">★</span>
+                                    <span data-value="3">★</span>
+                                    <span data-value="4">★</span>
+                                    <span data-value="5">★</span>
+                                </div>
+                                <input type="hidden" id="reviewStars" value="5" required>
+                                <input type="text" id="reviewerName" placeholder="ชื่อของคุณ" required>
+                                <textarea id="reviewText" rows="3" placeholder="แบ่งปันประสบการณ์ของคุณ..." required></textarea>
+                                <button type="submit" class="btn-primary" style="width:100%; margin-top:5px; padding: 12px; font-size: 1.1rem;">ส่งรีวิว</button>
+                            </form>
+                        </div>
+                        
+                        <div id="reviewList" class="review-list"></div>
+                    </div>
+                </div> 
+
+                <div class="detail-side-col">
+                    <div class="map-widget-container">
+                        <iframe id="detailMapFrame" class="map-iframe" allowfullscreen="" loading="lazy"></iframe>
+                        <a id="detailMapLink" href="#" target="_blank" class="btn-map">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: text-bottom; margin-right: 4px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg> ดูเส้นทางบนแอป Maps
+                        </a>
+                    </div>
+                    <div class="info-card">
+                        <h3>ข้อมูลติดต่อ</h3>
+                        <p style="display: flex; align-items: flex-start; gap: 8px;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8b5a2b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-top: 4px; flex-shrink: 0;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                            <span><strong>ที่อยู่:</strong> <br><span id="detailLocation"></span></span>
+                        </p>
+                        <p style="display: flex; align-items: flex-start; gap: 8px;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8b5a2b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-top: 4px; flex-shrink: 0;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                            <span><strong>เบอร์โทร:</strong> <br><span id="detailTel"></span></span>
+                        </p>
+                        <p style="display: flex; align-items: flex-start; gap: 8px;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8b5a2b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-top: 4px; flex-shrink: 0;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            <span><strong>เวลาทำการ:</strong> <br><span id="detailTime"></span></span>
+                        </p>
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </div>
+
+    <div id="addPhotoModal" class="modal">
+        <div class="modal-content" style="max-width: 450px;">
+            <span class="close-btn" id="closePhotoModal">&times;</span>
+            <h2 style="color: #8b5a2b; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                เพิ่มรูปภาพร้าน
+            </h2>
+            
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label style="margin-bottom: 5px; display: block; color: #6f4e37; font-weight: 500;">เลือกวิธีอัปโหลด:</label>
+                <div style="background: #fffaf5; border: 1px solid #f1e6d9; padding: 15px; border-radius: 8px;">
+                    
+                    <div>
+                        <label style="font-size: 0.85rem; color: #8b5a2b; font-weight: bold;">📷 อัปโหลดรูปภาพ:</label>
+                        <input type="file" id="newPhotoFile" accept="image/*" style="width: 100%; margin-top: 5px; padding: 8px; border: 1px solid #d2a679; border-radius: 6px; background: white; font-family: 'Kanit';">
+                    </div>
+
+                    <div style="text-align: center; margin: 10px 0; color: #d2a679; font-size: 0.8rem;">— หรือ —</div>
+
+                    <div>
+                        <label style="font-size: 0.85rem; color: #8b5a2b; font-weight: bold;">🔗 ใส่ลิงก์รูปภาพโดยตรง:</label>
+                        <input type="url" id="newPhotoUrl" placeholder="https://..." style="width: 100%; margin-top: 5px; padding: 8px; border: 1px solid #d2a679; border-radius: 6px; font-family: 'Kanit';">
+                    </div>
+                </div>
+
+                <div id="newPhotoPreviewContainer" style="margin-top: 15px; text-align: center; display: none;">
+                    <p style="font-size: 0.8rem; color: #8c8c8c; margin-bottom: 5px;">ตัวอย่างรูปภาพ:</p>
+                    <img id="newPhotoPreview" src="" style="width: 100%; max-height: 200px; object-fit: cover; border-radius: 8px; border: 1px solid #ddd;">
+                </div>
+            </div>
+
+            <button id="submitPhotoBtn" class="submit-btn">อัปโหลดรูปภาพ</button>
+        </div>
+    </div>
+    <div id="lightboxModal" class="modal" style="background-color: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; z-index: 2000;">
+        <span id="closeLightbox" style="position: absolute; top: 20px; right: 30px; color: white; font-size: 40px; font-weight: bold; cursor: pointer; transition: color 0.2s;">×</span>
+        <div id="lightboxPrev" class="lightbox-nav" style="left: 20px;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        </div>
+        <img id="lightboxImg" style="max-width: 90%; max-height: 90vh; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.5);">
+        <div id="lightboxNext" class="lightbox-nav" style="right: 20px;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+        </div>
+    </div>
+
+    <div id="managePhotoModal" class="modal">
+        <div class="modal-content" style="max-width: 500px;">
+            <h2 style="color: #8b5a2b; margin-bottom: 15px;">จัดการรูปภาพร้าน</h2>
+            <div id="manageGalleryGrid" class="manage-gallery-grid"></div>
+            <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+                <button id="cancelManageBtn" class="btn-outline">ยกเลิก</button>
+                <button id="confirmManageBtn" class="btn-primary" style="background: #e63946;">ยืนยันการลบ</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toastNotification" class="toast"></div>
+
+<script type="module" src="detail.js"></script>
+</body>
+</html>

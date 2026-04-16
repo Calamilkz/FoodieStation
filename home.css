@@ -1,0 +1,891 @@
+/* =========================================
+   1. Global Styles & Layout
+   ========================================= */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Kanit', sans-serif; background-color: #faf8f5; color: #4a4a4a; }
+
+/* Navbar */
+.navbar { background-color: white; border-bottom: 1px solid #f1e6d9; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 10px rgba(183, 138, 91, 0.05); }
+.nav-container { max-width: 1200px; margin: 0 auto; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
+.brand-link { text-decoration: none; cursor: pointer; }
+.brand-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #8b5a2b; margin: 0; }
+.brand-title span { color: #d2a679; }
+.search-box { display: flex; width: 40%; gap: 10px; }
+.search-box input { flex: 1; padding: 10px 15px; border: 2px solid #f3e9dc; border-radius: 8px; font-family: 'Kanit', sans-serif; background-color: #fffaf5; outline: none; }
+.search-box input:focus { border-color: #d2a679; }
+.search-box button, .btn-primary { padding: 10px 20px; border: none; border-radius: 8px; background-color: #8b5a2b; color: white; font-family: 'Kanit', sans-serif; cursor: pointer; }
+.search-box button:hover, .btn-primary:hover { background-color: #6f4e37; }
+
+/* User Menu */
+.user-menu { display: flex; align-items: center; gap: 15px; }
+.user-points { font-weight: 600; color: #b78a5b; }
+.avatar { width: 40px; height: 40px; border-radius: 50%; border: 2px solid #d2a679; }
+.user-profile-section { display: flex; align-items: center; gap: 15px; }
+.btn-login-outline { display: flex; align-items: center; gap: 8px; padding: 8px 18px; border: 1px solid #d2a679; border-radius: 50px; background-color: white; color: #8b5a2b; font-family: 'Kanit', sans-serif; font-weight: 500; font-size: 0.95rem; cursor: pointer; text-decoration: none; transition: all 0.2s; }
+.btn-login-outline:hover { background-color: #fffaf5; box-shadow: 0 2px 8px rgba(139, 90, 43, 0.15); }
+.btn-login-outline svg { width: 20px; height: 20px; stroke: currentColor; }
+
+/* Main Layout */
+.main-layout { max-width: 1200px; margin: 30px auto; padding: 0 20px; display: grid; grid-template-columns: 250px 1fr 280px; gap: 25px; }
+.sidebar-left, .sidebar-right { display: flex; flex-direction: column; gap: 20px; }
+.filter-group, .widget { background-color: white; padding: 20px; border-radius: 12px; border: 1px solid #f1e6d9; box-shadow: 0 4px 15px rgba(183, 138, 91, 0.05); }
+h3 { color: #6f4e37; margin-bottom: 15px; font-size: 1.1rem; }
+.custom-select { width: 100%; padding: 10px; border: 1px solid #f3e9dc; border-radius: 8px; font-family: 'Kanit', sans-serif; background-color: #fffaf5; }
+.checkbox-container { display: block; margin-bottom: 10px; cursor: pointer; color: #8c8c8c; }
+
+/* =========================================
+   2. Components (Cards, Modals, Toasts)
+   ========================================= */
+.feed-content { display: flex; flex-direction: column; gap: 20px; }
+.restaurant-card { background-color: white; border-radius: 12px; border: 1px solid #f1e6d9; box-shadow: 0 4px 15px rgba(183, 138, 91, 0.08); overflow: hidden; transition: transform 0.2s; cursor: pointer; }
+.restaurant-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(183, 138, 91, 0.15); }
+.card-images { display: block; height: 200px; overflow: hidden; border-radius: 12px 12px 0 0; }
+.card-images img { width: 100%; height: 100%; object-fit: cover; }
+.card-details { padding: 20px; }
+.rest-name { color: #6f4e37; font-size: 1.4rem; margin-bottom: 5px; }
+.rest-meta { font-size: 0.9rem; color: #8c8c8c; margin-bottom: 10px; }
+.rating { color: #d2a679; font-weight: 600; }
+.dot { margin: 0 5px; }
+.rest-desc { color: #4a4a4a; font-size: 0.95rem; margin-bottom: 15px; }
+.tags { display: flex; gap: 10px; }
+.tag { background-color: #fffaf5; color: #a67c52; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; border: 1px solid #f3e9dc; }
+
+/* Modals */
+.modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); overflow-y: auto; }
+.modal-content { background-color: #fffaf5; margin: 5% auto; padding: 30px; border: 1px solid #f3e9dc; border-radius: 12px; width: 90%; max-width: 500px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+.close-btn { position: absolute; right: 20px; top: 15px; color: #8b5a2b; font-size: 28px; font-weight: bold; cursor: pointer; z-index: 10; background: white; border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+.close-btn:hover { background-color: #f1e6d9; }
+.form-group { margin-bottom: 15px; }
+.form-group label { display: block; color: #6f4e37; margin-bottom: 5px; font-weight: 500; font-size: 0.95rem; }
+.form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #d2a679; border-radius: 8px; font-family: 'Kanit', sans-serif; background-color: white; }
+.submit-btn { width: 100%; padding: 12px; background-color: #8b5a2b; color: white; border: none; border-radius: 8px; font-size: 1.1rem; cursor: pointer; margin-top: 10px; font-family: 'Kanit', sans-serif; }
+.submit-btn:hover { background-color: #6f4e37; }
+.toast { visibility: hidden; min-width: 300px; background-color: #8b5a2b; color: #fff; text-align: center; border-radius: 8px; padding: 16px; position: fixed; z-index: 3000; left: 50%; bottom: 30px; transform: translateX(-50%); box-shadow: 0 4px 15px rgba(0,0,0,0.2); font-family: 'Kanit', sans-serif; font-size: 1rem; opacity: 0; transition: opacity 0.4s, bottom 0.4s, visibility 0.4s; }
+.toast.show { visibility: visible; opacity: 1; bottom: 50px; }
+
+/* =========================================
+   3. Detail Page & Reviews
+   ========================================= */
+.detail-layout { max-width: 900px; padding: 0; overflow: hidden; }
+.detail-header-imgs { width: 100%; height: 300px; background: #ddd; position: relative; }
+.detail-header-imgs img { width: 100%; height: 100%; object-fit: cover; }
+.detail-body-split { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; padding: 30px; }
+.detail-title { color: #8b5a2b; font-size: 2rem; margin-bottom: 10px; }
+.detail-meta-row { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+.detail-rating { font-size: 1.2rem; color: #d2a679; font-weight: bold; }
+.detail-description { color: #4a4a4a; line-height: 1.6; }
+.divider { border: 0; height: 1px; background: #f1e6d9; margin: 25px 0; }
+.info-card { background: white; padding: 20px; border-radius: 12px; border: 1px solid #f3e9dc; }
+.info-card p { margin-bottom: 15px; color: #4a4a4a; font-size: 0.95rem;}
+.info-card strong { color: #6f4e37; }
+.gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; margin-bottom: 15px; }
+.gallery-grid img { width: 100%; height: 100px; object-fit: cover; border-radius: 8px; cursor: pointer; border: 1px solid #eee;}
+.btn-outline { width: 100%; padding: 10px; border: 2px dashed #d2a679; background: transparent; color: #8b5a2b; border-radius: 8px; font-family: 'Kanit'; cursor: pointer; font-weight: 500;}
+.btn-outline:hover { background: #fffaf5; }
+
+/* Review Items */
+.rating-summary-box { display: flex; gap: 30px; align-items: center; background: white; padding: 20px 30px; border-radius: 12px; border: 1px solid #f1e6d9; margin-bottom: 20px; }
+.rating-score-big { text-align: center; min-width: 100px; }
+.rating-score-big span { font-size: 3.5rem; font-weight: bold; color: #4a4a4a; line-height: 1; }
+.rating-score-big p { color: #8c8c8c; font-size: 0.9rem; margin-top: 5px; }
+.rating-stats p { color: #6f4e37; font-weight: 500; font-size: 1.1rem; }
+.write-review-box { background: white; padding: 20px; border-radius: 12px; border: 1px solid #f1e6d9; margin-bottom: 20px; }
+.write-review-box h4 { color: #6f4e37; margin-bottom: 15px; }
+.star-rating-input { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; cursor: pointer; }
+.star-rating-input span { font-size: 2.5rem; color: #e5e7eb; transition: color 0.2s, transform 0.1s; }
+.star-rating-input span:hover { transform: scale(1.1); }
+.star-rating-input span.active, .star-rating-input span.hover { color: #d2a679; }
+.write-review-box form input, .write-review-box form textarea { width: 100%; padding: 12px; border: 1px solid #e5e7eb; border-radius: 8px; font-family: 'Kanit'; margin-bottom: 10px; background: #faf8f5; }
+
+.review-item { padding: 15px 0; border-bottom: 1px solid #f1e6d9; }
+.review-item:last-child { border-bottom: none; }
+.review-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.reviewer-avatar { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 1px solid #f1e6d9; background-color: #fff; cursor: pointer; }
+.reviewer-avatar:hover { opacity: 0.8; }
+.reviewer-info-meta { display: flex; flex-direction: column; }
+.reviewer-name { font-weight: bold; color: #6f4e37; cursor: pointer; }
+.reviewer-name:hover { text-decoration: underline; color: #8b5a2b; }
+.review-meta-row { display: flex; align-items: center; gap: 10px; margin-top: 2px; }
+.review-stars { color: #d2a679; font-size: 0.9rem;}
+.review-text { color: #4a4a4a; margin-top: 5px; font-size: 0.95rem; line-height: 1.5;}
+.review-date { font-size: 0.8rem; color: #aaa; margin-top: 5px; display: block;}
+.review-actions { display: flex; gap: 15px; margin-top: 12px; align-items: center; }
+.action-btn { background: transparent; border: none; color: #8c8c8c; font-family: 'Kanit'; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: color 0.2s; padding: 0; }
+.action-btn:hover { color: #8b5a2b; }
+.action-btn.liked { color: #e63946; font-weight: 500; }
+.action-btn.liked svg { fill: #e63946; stroke: #e63946; }
+
+.replies-section { margin-top: 15px; padding-left: 20px; border-left: 2px solid #f3e9dc; }
+.reply-item { background: #fffaf5; padding: 10px 12px; border-radius: 8px; margin-bottom: 8px; }
+.reply-header { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+.reply-avatar { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; cursor: pointer; }
+.reply-avatar:hover { opacity: 0.8; }
+.reply-name { font-weight: bold; color: #6f4e37; font-size: 0.85rem; cursor: pointer;}
+.reply-name:hover { text-decoration: underline; color: #8b5a2b; }
+.reply-text { color: #4a4a4a; font-size: 0.85rem; margin-top: 3px; }
+.reply-date { font-size: 0.75rem; color: #aaa; margin-left: 10px; font-weight: normal; }
+.reply-input-container { display: flex; gap: 10px; margin-top: 10px; }
+.reply-input { flex: 1; padding: 8px 12px; border: 1px solid #e5e7eb; border-radius: 20px; font-family: 'Kanit'; font-size: 0.85rem; outline: none; background: white; }
+.reply-input:focus { border-color: #d2a679; }
+.send-reply-btn { background: #8b5a2b; color: white; border: none; border-radius: 20px; padding: 0 15px; cursor: pointer; font-family: 'Kanit'; font-size: 0.85rem; }
+
+/* =========================================
+   4. Profile Page & Sidebars
+   ========================================= */
+.profile-header-card { background: white; padding: 40px 20px; border-radius: 12px; border: 1px solid #f1e6d9; box-shadow: 0 4px 15px rgba(183, 138, 91, 0.05); text-align: center; margin-bottom: 25px; position: relative; }
+.profile-avatar-container { position: relative; width: 120px; height: 120px; margin: 0 auto 15px auto; }
+.profile-avatar-large { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 4px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+.edit-avatar-btn { position: absolute; bottom: 0; right: 0; background: #8b5a2b; color: white; border: none; border-radius: 50%; width: 35px; height: 35px; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2); font-size: 1rem; display: flex; align-items: center; justify-content: center; }
+.profile-name { color: #4a4a4a; font-size: 1.8rem; margin-bottom: 5px; }
+.profile-stats-row { display: flex; justify-content: center; gap: 40px; margin-top: 15px; }
+.stat-box { text-align: center; }
+.stat-num { display: block; font-size: 1.5rem; font-weight: bold; color: #6f4e37; }
+.stat-label { font-size: 0.9rem; color: #8c8c8c; }
+.profile-layout { display: grid; grid-template-columns: 250px 1fr 300px; gap: 25px; }
+.profile-menu { list-style: none; }
+.profile-menu li { padding: 12px 15px; cursor: pointer; border-radius: 8px; color: #4a4a4a; transition: background 0.2s; }
+.profile-menu li:hover { background: #fffaf5; color: #8b5a2b; }
+.profile-menu li.active { background: #f3e9dc; font-weight: bold; color: #8b5a2b; }
+.tab-content { display: none; }
+.tab-content.active { display: block; animation: fadeIn 0.4s; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.review-history-card { background: white; border-radius: 12px; border: 1px solid #f1e6d9; padding: 20px; margin-bottom: 20px; display: flex; gap: 15px; }
+.history-rest-img { width: 120px; height: 100px; object-fit: cover; border-radius: 8px; }
+.history-details { flex: 1; }
+.history-rest-name { color: #8b5a2b; font-size: 1.2rem; font-weight: bold; cursor: pointer; text-decoration: none;}
+.history-rest-name:hover { text-decoration: underline; }
+.history-rating { color: #d2a679; font-weight: bold; font-size: 1.1rem;}
+.history-text { color: #4a4a4a; font-size: 0.95rem; margin-top: 8px;}
+
+/* Quests */
+.quest-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px dashed #f1e6d9; }
+.quest-item:last-child { border-bottom: none; padding-bottom: 0; }
+.quest-info { flex: 1; }
+.quest-title { font-size: 0.95rem; color: #4a4a4a; font-weight: 500; margin-bottom: 3px; }
+.quest-reward { font-size: 0.8rem; color: #b78a5b; font-weight: bold; background: #fffaf5; padding: 2px 6px; border-radius: 4px; display: inline-block; border: 1px solid #f3e9dc; }
+.quest-status { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: bold; }
+.quest-status.pending { background: #f3f4f6; color: #9ca3af; border: 2px solid #e5e7eb; }
+.quest-status.completed { background: #dcfce7; color: #16a34a; border: 2px solid #bbf7d0; }
+
+/* Ads */
+.ad-card { display: flex; gap: 12px; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #f1e6d9; cursor: pointer; transition: transform 0.2s; }
+.ad-card:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+.ad-card:hover { transform: translateY(-2px); }
+.ad-img { width: 75px; height: 75px; border-radius: 8px; object-fit: cover; border: 1px solid #eee; }
+.ad-details { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+.ad-title { font-weight: 600; color: #333; font-size: 0.95rem; line-height: 1.2; }
+.ad-title span { font-weight: normal; color: #555; font-size: 0.85rem; }
+.ad-meta { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: #8c8c8c; }
+.ad-rating { background-color: #8b1a1a; color: white; padding: 2px 6px; border-radius: 6px; font-weight: bold; }
+.ad-desc { font-size: 0.85rem; color: #0073e6; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+/* =========================================
+   5. Gacha Shop & Titles System
+   ========================================= */
+.shop-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 20px; }
+.inventory-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; margin-top: 20px; }
+.inventory-item { background: white; border: 1px solid #f1e6d9; padding: 15px; border-radius: 12px; text-align: center; cursor: pointer; transition: 0.2s; }
+.inventory-item:hover { background: #fffaf5; border-color: #d2a679; }
+.inventory-item.equipped { border: 2px solid #8b5a2b; background: #fffaf5; }
+
+/* 🌟 Title Tags Styles */
+.title-tag { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; font-family: 'Kanit', sans-serif; margin-left: 8px; vertical-align: middle; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+.title-common { background: #e5e7eb; color: #4b5563; border: 1px solid #d1d5db; }
+.title-uncommon { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+.title-rare { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; box-shadow: 0 0 8px rgba(59, 130, 246, 0.4); }
+.title-sr { background: linear-gradient(135deg, #6b21a8, #9333ea); color: white; border: 1px solid #d8b4fe; box-shadow: 0 0 10px rgba(147, 51, 234, 0.6); animation: pulse-sr 2s infinite; }
+@keyframes pulse-sr { 0% { box-shadow: 0 0 5px #9333ea; } 50% { box-shadow: 0 0 15px #9333ea; } 100% { box-shadow: 0 0 5px #9333ea; } }
+.title-ur { background: linear-gradient(135deg, #f59e0b, #fbbf24, #fcd34d); color: #78350f; border: 1px solid #fef3c7; position: relative; overflow: hidden; box-shadow: 0 0 12px rgba(245, 158, 11, 0.6); }
+.title-ur::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0) 100%); transform: rotate(30deg); animation: shine-ur 3s infinite; }
+@keyframes shine-ur { 0% { left: -100%; } 20% { left: 100%; } 100% { left: 100%; } }
+.title-sec { background: linear-gradient(270deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3); background-size: 400% 400%; color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); border: 1px solid white; box-shadow: 0 0 15px rgba(255, 255, 255, 0.8); animation: rainbow-sec 3s ease infinite, float-sec 2s ease-in-out infinite; }
+@keyframes rainbow-sec { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+@keyframes float-sec { 0% { transform: translateY(0px); } 50% { transform: translateY(-3px); } 100% { transform: translateY(0px); } }
+/* 🌟 ฉายาระดับ Special (แจกจากความสำเร็จ / ผู้ดูแลระบบ เท่านั้น) */
+.title-special { 
+    background: linear-gradient(135deg, #111827, #374151); /* สีดำเทาดุดัน */
+    color: #ffd700; /* ตัวหนังสือสีทอง */
+    border: 1px solid #ffd700; 
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.4); 
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+}
+/* เอฟเฟกต์แสงสะท้อนสีทองวิ่งผ่าน */
+.title-special::after {
+    content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; 
+    background: linear-gradient(to right, rgba(255,215,0,0) 0%, rgba(255,215,0,0.5) 50%, rgba(255,215,0,0) 100%); 
+    transform: rotate(30deg); animation: shine-special 4s infinite; 
+}
+@keyframes shine-special { 0% { left: -100%; } 20% { left: 100%; } 100% { left: 100%; } }
+/* 🌟 Gacha Machine (3D Premium Foodie Theme) 🌟 */
+.gacha-machine { 
+    background: linear-gradient(135deg, #fffaf5 0%, #f3e9dc 100%); 
+    border: 1px solid #fff; 
+    border-radius: 20px; 
+    padding: 40px 20px; 
+    text-align: center; 
+    box-shadow: 
+        10px 10px 30px rgba(139, 90, 43, 0.1),
+        -10px -10px 30px rgba(255, 255, 255, 0.8),
+        inset 2px 2px 5px rgba(255,255,255,1); 
+}
+
+.gacha-btn { 
+    background: linear-gradient(145deg, #ff4b5a, #e63946); 
+    color: white; 
+    border: none; 
+    padding: 15px 40px; 
+    border-radius: 50px; 
+    font-size: 1.2rem; 
+    font-weight: bold; 
+    cursor: pointer; 
+    box-shadow: 
+        0 8px 15px rgba(230, 57, 70, 0.4),
+        inset 2px 2px 4px rgba(255,255,255,0.4),
+        inset -2px -2px 4px rgba(0,0,0,0.2);
+    transition: all 0.15s ease; 
+    font-family: 'Kanit'; 
+    margin-top: 25px;
+}
+.gacha-btn:active { 
+    transform: translateY(4px); 
+    box-shadow: 
+        0 2px 5px rgba(230, 57, 70, 0.4),
+        inset 2px 2px 6px rgba(0,0,0,0.3);
+}
+.gacha-btn:disabled { background: #ccc; box-shadow: none; cursor: not-allowed; }
+
+/* โครงตู้ */
+.foodie-gacha-wrapper {
+    position: relative;
+    width: 280px;
+    height: 350px;
+    margin: 80px auto 20px auto; 
+    filter: drop-shadow(0 15px 25px rgba(90, 61, 43, 0.2)); /* เงารวมของตู้ */
+}
+
+/* 👨‍🍳 หมวกเชฟ 3D */
+.gacha-chef-hat {
+    position: absolute;
+    top: -65px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 140px;
+    height: 80px;
+    z-index: 5;
+}
+
+/* ก้อนเมฆหมวกเชฟ 3D */
+.hat-puffs {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    /* แสงเงาทำให้หมวกดูฟู */
+    filter: drop-shadow(0 -2px 1px rgba(255,255,255,0.8))
+            drop-shadow(0 5px 5px rgba(90, 61, 43, 0.15));
+}
+.puff { 
+    position: absolute; 
+    background: radial-gradient(circle at 30% 30%, #ffffff 0%, #f0f0f0 60%, #e0e0e0 100%); 
+    border-radius: 50%; 
+    box-shadow: inset -3px -3px 8px rgba(0,0,0,0.05);
+}
+.puff.p1 { width: 60px; height: 60px; bottom: 15px; left: -5px; }
+.puff.p2 { width: 75px; height: 75px; bottom: 20px; left: 32px; z-index: 2; box-shadow: inset -3px -3px 8px rgba(0,0,0,0.05), 0 5px 10px rgba(0,0,0,0.05); }
+.puff.p3 { width: 60px; height: 60px; bottom: 15px; right: -5px; }
+.puff-base { 
+    position: absolute; bottom: 10px; left: 5px; width: 130px; height: 35px; 
+    background: linear-gradient(to bottom, #ffffff, #f0f0f0); 
+    border-radius: 10px;
+}
+
+/* 🎀 แถบหมวก 3D */
+.gacha-hat-band {
+    position: absolute; bottom: 0px; left: -10px; width: 160px; height: 28px;
+    background: linear-gradient(to bottom, #ffb6c1, #ff99aa); 
+    border-radius: 14px;
+    display: flex; justify-content: center; align-items: center; z-index: 6;
+    box-shadow: 
+        0 4px 8px rgba(0,0,0,0.1),
+        inset 0 2px 4px rgba(255,255,255,0.5),
+        inset 0 -2px 4px rgba(0,0,0,0.1);
+}
+/* กระดุมทอง 3D */
+.gacha-hat-band::after {
+    content: ''; width: 16px; height: 16px;
+    background: radial-gradient(circle at 30% 30%, #fff7a1 0%, #ffd700 50%, #d4af37 100%);
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2), inset -1px -1px 2px rgba(0,0,0,0.2);
+}
+
+/* 🕹️ ตัวตู้ */
+.gacha-body {
+    position: relative; width: 100%; height: 100%;
+    display: flex; flex-direction: column; z-index: 3;
+}
+
+/* 🧊 กระจกตู้ (Glassmorphism - ดูใสและโค้งมน) */
+.gacha-glass {
+    width: 100%; height: 200px; 
+    background: linear-gradient(135deg, rgba(224, 247, 250, 0.4) 0%, rgba(178, 235, 242, 0.1) 100%);
+    border-radius: 40px 40px 0 0; 
+    position: relative; overflow: hidden;
+    backdrop-filter: blur(2px);
+    /* สร้างขอบกระจกและแสงสะท้อน */
+    box-shadow: 
+        inset 0 0 20px rgba(255, 255, 255, 0.8),
+        inset 5px 5px 15px rgba(255, 255, 255, 0.9),
+        inset -5px -5px 15px rgba(0, 0, 0, 0.05);
+    border: 2px solid rgba(255,255,255,0.6);
+    border-bottom: none;
+}
+/* แสงสะท้อนบนกระจก (Highlight) */
+.gacha-glass::after {
+    content: ''; position: absolute; top: 10px; left: 15px; width: 60px; height: 120px;
+    background: linear-gradient(to right, rgba(255,255,255,0.8), transparent);
+    border-radius: 50%; transform: rotate(-25deg); filter: blur(2px); z-index: 5; pointer-events: none;
+}
+
+/* ฐานตู้ 3D */
+.gacha-base {
+    width: 100%; height: 150px; 
+    background: linear-gradient(to bottom, #ffe082, #ffca28);
+    border-radius: 0 0 20px 20px;
+    position: relative;
+    box-shadow: 
+        inset 0 10px 15px rgba(255,255,255,0.4),
+        inset 0 -10px 20px rgba(0,0,0,0.1);
+    border: 1px solid rgba(255,255,255,0.5);
+    border-top: 3px solid rgba(255,255,255,0.7); /* เส้นคั่นกระจกกับฐาน */
+}
+
+/* 📛 ป้ายชื่อตู้ 3D */
+.gacha-sign {
+    position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+    background: linear-gradient(to bottom, #ffb6c1, #ff8da1); 
+    padding: 6px 20px; border-radius: 20px;
+    font-size: 0.85rem; font-weight: 600; color: #fff; letter-spacing: 1px; white-space: nowrap;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    box-shadow: 
+        0 4px 8px rgba(0,0,0,0.15),
+        inset 0 2px 4px rgba(255,255,255,0.4);
+    display: flex; align-items: center; gap: 10px;
+}
+/* หมุดเงิน 3D */
+.gacha-sign::before, .gacha-sign::after {
+    content: ''; display: inline-block; width: 6px; height: 6px;
+    background: radial-gradient(circle at 30% 30%, #fff, #ccc, #999);
+    border-radius: 50%; box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+/* ลูกบิด 3D */
+.gacha-knob {
+    position: absolute; top: 55px; left: 45px; width: 65px; height: 65px;
+    background: linear-gradient(145deg, #e0f7fa, #80deea); 
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 
+        5px 5px 10px rgba(0,0,0,0.1),
+        -2px -2px 5px rgba(255,255,255,0.8),
+        inset 2px 2px 5px rgba(255,255,255,0.8);
+    border: 1px solid rgba(255,255,255,0.5);
+    cursor: pointer;
+}
+/* ร่องจับลูกบิด */
+.gacha-knob::after { 
+    content: ''; width: 45px; height: 12px; 
+    background: linear-gradient(to bottom, #4dd0e1, #00acc1); 
+    border-radius: 6px; transform: rotate(45deg); 
+    box-shadow: inset 1px 1px 3px rgba(0,0,0,0.2);
+}
+.gacha-knob.turning { transform: rotate(405deg); }
+
+/* ช่องรับของ 3D (ดูลึกเข้าไป) */
+.gacha-dispenser {
+    position: absolute; bottom: 20px; right: 40px; width: 75px; height: 75px;
+    background: linear-gradient(to bottom, #d8969f, #ffb6c1); 
+    border-radius: 12px; overflow: hidden;
+    box-shadow: 
+        inset 5px 5px 10px rgba(0,0,0,0.2),
+        inset -2px -2px 5px rgba(255,255,255,0.4),
+        0 2px 0 rgba(255,255,255,0.5); /* ขอบล่างสว่าง */
+}
+/* เงาด้านในช่อง */
+.gacha-dispenser::after { 
+    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 25px; 
+    background: linear-gradient(to bottom, rgba(0,0,0,0.3), transparent); 
+}
+
+/* ⚪ ลูกบอลกาชา 3D (เหมือนลูกแก้ว) - แก้ไขคอมเมนต์แล้ว */
+.g-ball {
+    position: absolute; width: 45px; height: 45px; border-radius: 50%;
+    /* แสงสะท้อนทรงกลม */
+    box-shadow: 
+        inset -5px -5px 10px rgba(0,0,0,0.15),
+        inset 5px 5px 10px rgba(255,255,255,0.8),
+        2px 2px 5px rgba(0,0,0,0.1);
+    /* 🌟 รับค่าองศาเริ่มต้นจากตัวแปร --rot */
+    transform: rotate(var(--rot, 0deg));
+}
+
+/* แสงแวววับบนลูกบอล */
+.g-ball::before {
+    content: ''; position: absolute; top: 5px; left: 8px; width: 12px; height: 6px;
+    background: rgba(255,255,255,0.8); border-radius: 50%; transform: rotate(-30deg); filter: blur(1px);
+}
+
+/* 🌟 สีลูกบอล 20 ลูก (อัดแน่นเต็มตู้ พร้อมจังหวะเด้งที่ต่างกัน) */
+.gb-1 { --rot: 15deg; background: linear-gradient(135deg, #ffb3ba 50%, #ffe6e8 50%); bottom: 5px; left: 5px; animation-delay: -0.1s; animation-duration: 0.28s; z-index: 3;}
+.gb-2 { --rot: -25deg; background: linear-gradient(135deg, #bae1ff 50%, #e6f4ff 50%); bottom: 12px; left: 45px; animation-delay: -0.4s; animation-duration: 0.32s; z-index: 3;}
+.gb-3 { --rot: 40deg; background: linear-gradient(135deg, #baffc9 50%, #e6ffe0 50%); bottom: 5px; left: 90px; animation-delay: -0.2s; animation-duration: 0.3s; z-index: 3;}
+.gb-4 { --rot: -10deg; background: linear-gradient(135deg, #ffffba 50%, #ffffe6 50%); bottom: 15px; left: 135px; animation-delay: -0.5s; animation-duration: 0.35s; z-index: 3;}
+.gb-5 { --rot: 20deg; background: linear-gradient(135deg, #e8baff 50%, #f7e6ff 50%); bottom: 5px; left: 180px; animation-delay: -0.3s; animation-duration: 0.29s; z-index: 3;}
+.gb-6 { --rot: 60deg; background: linear-gradient(135deg, #ffdfba 50%, #fff0e6 50%); bottom: 12px; left: 220px; animation-delay: -0.7s; animation-duration: 0.31s; z-index: 3;}
+
+.gb-7 { --rot: -15deg; background: linear-gradient(135deg, #ffb3ba 50%, #ffe6e8 50%); bottom: 45px; left: 15px; animation-delay: -0.6s; animation-duration: 0.31s; z-index: 2;}
+.gb-8 { --rot: 35deg; background: linear-gradient(135deg, #bae1ff 50%, #e6f4ff 50%); bottom: 55px; left: 60px; animation-delay: -0.25s; animation-duration: 0.27s; z-index: 2;}
+.gb-9 { --rot: -45deg; background: linear-gradient(135deg, #baffc9 50%, #e6ffe0 50%); bottom: 45px; left: 105px; animation-delay: -0.45s; animation-duration: 0.33s; z-index: 2;}
+.gb-10 { --rot: 10deg; background: linear-gradient(135deg, #ffffba 50%, #ffffe6 50%); bottom: 55px; left: 155px; animation-delay: -0.15s; animation-duration: 0.34s; z-index: 2;}
+.gb-11 { --rot: -20deg; background: linear-gradient(135deg, #e8baff 50%, #f7e6ff 50%); bottom: 48px; left: 200px; animation-delay: -0.55s; animation-duration: 0.3s; z-index: 2;}
+
+.gb-12 { --rot: 55deg; background: linear-gradient(135deg, #ffdfba 50%, #fff0e6 50%); bottom: 85px; left: 5px; animation-delay: -0.8s; animation-duration: 0.26s; z-index: 1;}
+.gb-13 { --rot: 20deg; background: linear-gradient(135deg, #bae1ff 50%, #e6f4ff 50%); bottom: 95px; left: 50px; animation-delay: -0.35s; animation-duration: 0.26s; z-index: 1;}
+.gb-14 { --rot: -20deg; background: linear-gradient(135deg, #baffc9 50%, #e6ffe0 50%); bottom: 90px; left: 100px; animation-delay: -0.05s; animation-duration: 0.32s; z-index: 1;}
+.gb-15 { --rot: 5deg; background: linear-gradient(135deg, #ffb3ba 50%, #ffe6e8 50%); bottom: 100px; left: 145px; animation-delay: -0.65s; animation-duration: 0.28s; z-index: 1;}
+.gb-16 { --rot: -35deg; background: linear-gradient(135deg, #ffffba 50%, #ffffe6 50%); bottom: 90px; left: 195px; animation-delay: -0.2s; animation-duration: 0.31s; z-index: 1;}
+
+.gb-17 { --rot: 45deg; background: linear-gradient(135deg, #e8baff 50%, #f7e6ff 50%); bottom: 135px; left: 35px; animation-delay: -0.5s; animation-duration: 0.33s; z-index: 0;}
+.gb-18 { --rot: -15deg; background: linear-gradient(135deg, #ffb3ba 50%, #ffe6e8 50%); bottom: 140px; left: 85px; animation-delay: -0.1s; animation-duration: 0.27s; z-index: 0;}
+.gb-19 { --rot: 25deg; background: linear-gradient(135deg, #bae1ff 50%, #e6f4ff 50%); bottom: 135px; left: 135px; animation-delay: -0.4s; animation-duration: 0.3s; z-index: 0;}
+.gb-20 { --rot: -60deg; background: linear-gradient(135deg, #ffdfba 50%, #fff0e6 50%); bottom: 145px; left: 180px; animation-delay: -0.3s; animation-duration: 0.35s; z-index: 0;}
+
+/* 🎬 อนิเมชันลูกบอลกระโดดแบบสุ่มจังหวะ (Asynchronous Rumble) */
+.g-ball.rumble { 
+    animation-name: rumble-anim;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-timing-function: ease-in-out;
+}
+@keyframes rumble-anim {
+    /* ใช้ var(--rot) เพื่อให้แต่ละลูกหมุนต่อจากองศาเดิมของตัวเอง ไม่กลับมาตั้งตรง */
+    0% { transform: translateY(0) scale(1) rotate(var(--rot, 0deg)); }
+    100% { transform: translateY(-25px) scale(1.05) rotate(calc(var(--rot, 0deg) + 30deg)); }
+}
+
+/* 🎬 อนิเมชันลูกบอลหล่นลงช่อง */
+.g-drop-ball {
+    position: absolute; width: 45px; height: 45px; border-radius: 50%;
+    background: linear-gradient(135deg, #ffffba 50%, #ffffe6 50%);
+    box-shadow: inset -5px -5px 10px rgba(0,0,0,0.15), inset 5px 5px 10px rgba(255,255,255,0.8), 2px 2px 5px rgba(0,0,0,0.2);
+    top: -55px; left: 12px; opacity: 0; z-index: 10;
+}
+.g-drop-ball::before {
+    content: ''; position: absolute; top: 5px; left: 8px; width: 12px; height: 6px;
+    background: rgba(255,255,255,0.8); border-radius: 50%; transform: rotate(-30deg); filter: blur(1px);
+}
+.g-drop-ball.dropping { animation: drop-anim 1s forwards cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+@keyframes drop-anim {
+    0% { top: -55px; opacity: 1; transform: rotate(0deg); }
+    70% { top: 35px; opacity: 1; transform: rotate(180deg); }
+    100% { top: 35px; opacity: 1; transform: rotate(180deg) scale(1.1); }
+}
+
+/* 🌟 แก้ปัญหาฉายาชื่อยาวๆ ทะลุกรอบ */
+.inventory-item { display: flex; align-items: center; justify-content: center; }
+.inventory-item .title-tag { white-space: normal; word-wrap: break-word; line-height: 1.4; width: 100%; box-sizing: border-box; }
+
+/* =========================================
+   6. Responsive Mobile Design
+   ========================================= */
+@media (max-width: 850px) {
+    .nav-container { flex-direction: column; gap: 15px; }
+    .search-box, .user-menu { width: 100%; justify-content: center; }
+    .main-layout { grid-template-columns: 1fr; }
+    .sidebar-left { order: -1; }
+    .detail-body-split, .profile-layout, .shop-layout { grid-template-columns: 1fr; }
+    .detail-title { font-size: 1.5rem; }
+    .rating-summary-box { flex-direction: column; text-align: center; gap: 15px; padding: 20px 15px; }
+    .profile-stats-row { gap: 20px; }
+}
+.gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; margin-bottom: 15px; }
+.gallery-grid img { width: 100%; height: 100px; object-fit: cover; border-radius: 8px; cursor: pointer; border: 1px solid #eee;}
+
+/* 🌟 เพิ่มบรรทัดนี้เข้าไป เพื่อบังคับให้ข้อความแจ้งเตือนกินพื้นที่เต็มความกว้าง ไม่โดนบีบ */
+.gallery-grid p { grid-column: 1 / -1; color: #8c8c8c; line-height: 1.5; }
+/* 🌟 ดีไซน์ปุ่มบันทึกร้าน (Bookmark Button) 🌟 */
+.bookmark-btn { 
+    background: transparent; 
+    border: 2px solid #d2a679; 
+    color: #d2a679; 
+    padding: 8px 15px; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    font-family: 'Kanit', sans-serif; 
+    font-size: 0.95rem; 
+    font-weight: 500; 
+    display: flex; 
+    align-items: center; 
+    gap: 8px; 
+    transition: all 0.2s ease; 
+    /* ป้องกันปุ่มโดนบีบตกบรรทัด */
+    white-space: nowrap; 
+    height: fit-content;
+}
+
+.bookmark-btn:hover { 
+    background: #fffaf5; 
+}
+
+/* สถานะตอนกดบันทึกแล้ว (ปุ่มทึบ) */
+.bookmark-btn.saved { 
+    background: #8b5a2b; 
+    color: white; 
+    border-color: #8b5a2b; 
+}
+/* =========================================
+   ส่วนตกแต่งแผนที่และปุ่ม (หน้ารายละเอียดร้าน)
+   ========================================= */
+.map-widget-container { 
+    background: white; 
+    padding: 15px; 
+    border-radius: 12px; 
+    border: 1px solid #f3e9dc; 
+    margin-bottom: 20px; 
+    box-shadow: 0 4px 10px rgba(183, 138, 91, 0.05);
+}
+
+.map-iframe { 
+    width: 100%; 
+    height: 180px; 
+    border: none; 
+    border-radius: 8px; 
+    margin-bottom: 12px; 
+    background-color: #f3f4f6; 
+}
+
+.btn-map { 
+    display: block; 
+    text-align: center; 
+    background: #fffaf5; 
+    color: #8b5a2b; 
+    border: 1px solid #d2a679; 
+    padding: 10px; 
+    border-radius: 8px; 
+    text-decoration: none; 
+    font-family: 'Kanit', sans-serif; 
+    font-size: 0.95rem; 
+    font-weight: 500; 
+    transition: all 0.2s ease; 
+}
+
+.btn-map:hover { 
+    background: #8b5a2b; 
+    color: white; 
+}
+/* =========================================
+   สไตล์ใหม่สำหรับหน้า Profile (แนวนอนแบบ Social)
+   ========================================= */
+.profile-header-new {
+    background: white; 
+    padding: 35px 40px; 
+    border-radius: 12px; 
+    border: 1px solid #f1e6d9; 
+    box-shadow: 0 4px 15px rgba(183, 138, 91, 0.05); 
+    display: flex; 
+    align-items: center; 
+    justify-content: flex-start; 
+    flex-wrap: wrap; 
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.profile-avatar-container-new {
+    position: relative; 
+    width: 110px; /* ปรับขนาดรูปลงนิดหน่อยให้บาลานซ์กับต้นแบบ */
+    height: 110px; 
+    flex-shrink: 0;
+    margin-right: 30px; /* ระยะห่างระหว่างรูปกับชื่อ */
+}
+
+.profile-avatar-container-new img {
+    width: 100%; 
+    height: 100%; 
+    border-radius: 50%; 
+    object-fit: cover; 
+    border: 4px solid white; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.badge-overlay-new {
+    position: absolute; 
+    bottom: -15px; 
+    left: 50%; 
+    transform: translateX(-50%);
+    z-index: 10; 
+    display: flex;
+    justify-content: center;
+    width: max-content; 
+}
+
+.badge-overlay-new .title-tag {
+    font-size: 0.8rem !important; 
+    padding: 4px 15px !important;
+    white-space: nowrap !important; 
+    border-radius: 50px !important; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2) !important;
+}
+
+.profile-info-wrapper { 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+}
+
+.profile-name-new { 
+    font-size: 1.5rem; 
+    color: #4a4a4a; 
+    margin-bottom: 10px; 
+    font-weight: bold; 
+    display: flex; 
+    align-items: center; 
+    gap: 10px;
+}
+
+.profile-stats-new { 
+    display: flex; 
+    gap: 30px; /* ระยะห่างระหว่างหมวดหมู่ตัวเลข */
+    flex-wrap: wrap; 
+}
+
+.stat-item-new { 
+    display: flex; 
+    flex-direction: column; 
+    align-items: flex-start;
+}
+
+.stat-num-new { 
+    font-size: 1.2rem; 
+    font-weight: bold; 
+    color: #4a4a4a; 
+    line-height: 1; 
+    margin-bottom: 5px;
+}
+
+.stat-label-new { 
+    font-size: 0.85rem; 
+    color: #8c8c8c; 
+}
+
+/* 🌟 หัวใจสำคัญ: ผลักปุ่มติดตามไปอยู่ขวาสุด */
+.profile-actions-wrapper { 
+    display: flex; 
+    gap: 12px; 
+    align-items: center; 
+    margin-left: auto; /* 🌟 คำสั่งนี้จะดันกลุ่มปุ่มไปชิดขอบขวาของการ์ดอัตโนมัติ */
+}
+
+/* 📱 จัดระเบียบตอนดูบนมือถือ (หน้าจอเล็ก) */
+@media (max-width: 768px) {
+    .profile-header-new {
+        flex-direction: column;
+        text-align: center;
+        padding: 30px 20px;
+    }
+    .profile-avatar-container-new {
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+    .profile-info-wrapper {
+        align-items: center;
+    }
+    .stat-item-new {
+        align-items: center;
+    }
+    .profile-stats-new {
+        justify-content: center;
+        gap: 20px;
+    }
+    .profile-actions-wrapper {
+        margin-left: 0;
+        justify-content: center;
+        width: 100%;
+        margin-top: 15px;
+    }
+}
+/* 🌟 ปุ่ม "ติดตาม" (เข้ากับธีมสีน้ำตาล) */
+.btn-follow { 
+    background-color: #8b5a2b; 
+    color: white; 
+    border: 1px solid #8b5a2b; 
+    padding: 8px 25px; 
+    border-radius: 8px; 
+    font-family: 'Kanit', sans-serif; 
+    cursor: pointer; 
+    font-weight: 500; 
+    transition: 0.2s ease; 
+}
+.btn-follow:hover { 
+    background-color: #6f4e37; 
+    border-color: #6f4e37; 
+}
+
+/* 🌟 ปุ่ม "กำลังติดตาม" (กรณีที่กดติดตามไปแล้ว) */
+.btn-unfollow { 
+    background-color: white; 
+    color: #8b5a2b; 
+    border: 1px solid #d2a679; 
+    padding: 8px 25px; 
+    border-radius: 8px; 
+    font-family: 'Kanit', sans-serif; 
+    cursor: pointer; 
+    font-weight: 500; 
+    transition: 0.2s ease; 
+}
+.btn-unfollow:hover { 
+    background-color: #fffaf5; 
+}
+.btn-icon { background: #f3f4f6; color: #4a4a4a; border: none; width: 38px; height: 38px; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; }
+.btn-icon:hover { background: #e5e7eb; }
+
+/* 📱 จัดระเบียบตอนดูบนมือถือ (หน้าจอเล็ก) */
+@media (max-width: 768px) {
+    .profile-header-new {
+        flex-direction: column;
+        text-align: center;
+        gap: 25px;
+        padding: 25px 15px;
+    }
+    .profile-avatar-container-new {
+        margin-left: 0;
+    }
+    .profile-info-wrapper {
+        align-items: center;
+    }
+    .stat-item-new {
+        align-items: center;
+    }
+    .profile-stats-new {
+        justify-content: center;
+        gap: 20px;
+    }
+    .profile-actions-wrapper {
+        margin-left: 0;
+        justify-content: center;
+        width: 100%;
+    }
+}
+/* =========================================
+   7. ระบบทริป / คอลเล็กชัน (Shared Collections)
+   ========================================= */
+.collection-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; padding-top: 10px; }
+.collection-card { background: white; border-radius: 12px; border: 1px solid #f1e6d9; padding: 20px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between;}
+.collection-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(183, 138, 91, 0.15); border-color: #d2a679;}
+.collection-title { font-size: 1.25rem; color: #6f4e37; font-weight: bold; margin-bottom: 8px; line-height: 1.3;}
+.collection-desc { font-size: 0.9rem; color: #8c8c8c; margin-bottom: 15px; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.collection-meta { font-size: 0.85rem; color: #8b5a2b; font-weight: 500; display: flex; gap: 15px; align-items: center; background: #fffaf5; padding: 8px 12px; border-radius: 8px; width: fit-content;}
+
+/* หน้าต่างเลือกดึงร้านจาก Bookmark */
+.place-select-list { max-height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; border: 1px solid #f1e6d9; padding: 10px; border-radius: 8px; background: #faf8f5; }
+.place-select-item { display: flex; align-items: center; gap: 12px; padding: 10px; background: white; border: 1px solid #e5e7eb; border-radius: 8px; cursor: pointer; transition: 0.2s;}
+.place-select-item:hover { border-color: #d2a679; }
+.place-select-item input[type="checkbox"] { width: 18px; height: 18px; accent-color: #8b5a2b; cursor: pointer; }
+.place-select-img { width: 60px; height: 60px; object-fit: cover; border-radius: 6px; border: 1px solid #eee;}
+.place-select-info { display: flex; flex-direction: column; flex: 1; }
+.place-select-name { font-weight: bold; color: #4a4a4a; font-size: 0.95rem;}
+.place-select-prov { font-size: 0.8rem; color: #8c8c8c; }
+/* =========================================
+   8. กล่องสถิติเชิงลึก (Profile Stats Box)
+   ========================================= */
+.profile-sidebar-stats {
+    margin-top: 15px;
+    padding: 15px 20px !important;
+}
+.profile-sidebar-stats h4 {
+    color: #4a4a4a;
+    font-size: 1rem;
+    margin-bottom: 12px;
+    border-bottom: 2px solid #f1e6d9;
+    padding-bottom: 8px;
+}
+.sidebar-stat-item {
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+    color: #4a4a4a;
+    display: flex;
+    align-items: baseline;
+}
+.sidebar-stat-item strong {
+    font-size: 1.15rem;
+    color: #6f4e37;
+    margin-right: 8px;
+    line-height: 1;
+}
+.sidebar-stat-item span {
+    color: #8c8c8c;
+}
+/* ลบการจำกัดความสูง (ถ้ามี) และให้ยืดหยุ่นตามเนื้อหา */
+.collection-card {
+    background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+    color: white;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    transition: 0.2s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    height: auto; /* เพิ่มบรรทัดนี้: ให้ความสูงปรับอัตโนมัติ */
+    min-height: 120px; /* กำหนดความสูงขั้นต่ำไว้กันกล่องแบนเกินไป */
+}
+/* ระบบจัดการรูปภาพ (Manage Gallery) */
+.manage-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+.manage-img-wrap {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    border-radius: 8px;
+    overflow: hidden;
+    -webkit-user-select: none; /* สำหรับ Safari */
+    user-select: none; /* สำหรับ Chrome, Edge, Firefox */
+    -webkit-user-drag: none; /* ป้องกันการคลิกค้างแล้วลากรูปภาพหลุดติดเมาส์มา */
+}
+.manage-img-wrap img {
+    width: 100%; height: 100%; object-fit: cover; transition: opacity 0.3s;
+}
+.delete-img-btn {
+    position: absolute;
+    top: 5px; right: 5px;
+    background: #e63946; color: white;
+    border: 2px solid white; /* นี่คือทริคตัดขอบโดยไม่เพิ่ม DOM */
+    border-radius: 50%;
+    width: 24px; height: 24px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-weight: bold; font-size: 14px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    transition: transform 0.2s;
+    user-select: none;
+    -webkit-user-select: none;
+}
+.delete-img-btn:hover { transform: scale(1.15); }
+.deleted-mark img { opacity: 0.3; filter: grayscale(100%); }
+
+/* ปุ่มลูกศร Lightbox */
+.lightbox-nav {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 50px; height: 50px;
+    background: rgba(255,255,255,0.2); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: white; cursor: pointer; transition: all 0.2s ease;
+}
+.lightbox-nav:hover {
+    background: rgba(255,255,255,0.4); 
+    transform: translateY(-50%) scale(1.15); /* ขยายขนาดตอนชี้ */
+}

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ร้านค้าและสุ่มฉายา - Foodie Station</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="home.css">
+    <style>
+        /* CSS สำหรับเมนูแท็บเท่านั้น (ไม่ไปกวน CSS ตู้กาชาใน home.css ของคุณ) */
+        .admin-menu { display: flex; gap: 15px; margin-bottom: 25px; border-bottom: 2px solid #f1e6d9; padding-bottom: 10px; overflow-x: auto; white-space: nowrap; }
+        .admin-tab { background: transparent; border: none; font-size: 1.1rem; color: #8c8c8c; cursor: pointer; padding: 10px 20px; font-family: 'Kanit'; font-weight: 500; border-radius: 8px 8px 0 0; transition: 0.2s; }
+        .admin-tab:hover { background: #fffaf5; color: #8b5a2b; }
+        .admin-tab.active { background: #8b5a2b; color: white; }
+        .admin-tab-content { display: none; }
+        .admin-tab-content.active { display: block; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="home.html" class="brand-link" title="กลับหน้าหลัก">
+                <h1 class="brand-title">Foodie<span>Station</span></h1>
+            </a>
+            <div class="user-menu">
+                <span id="userPointsDisplay" class="user-points">กำลังโหลด...</span>
+                <span id="userNameDisplay" style="font-weight: 500; color: #6f4e37; margin-right: 5px;"></span>
+                <img src="https://ui-avatars.com/api/?name=User&background=d2a679&color=fff" id="userAvatar" alt="User" class="avatar">
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-layout" style="display: block; max-width: 1000px; margin: 30px auto; padding: 0 20px;">
+        
+        <div class="profile-header-card" style="padding: 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+            <div style="text-align: left;">
+                <h1 style="color: #8b5a2b; margin-bottom: 5px;">ร้านค้าจุดแลกพ้อยท์</h1>
+                <p style="color: #8c8c8c;">ใช้แต้มที่สะสมมาเพื่อสุ่มรับฉายาประดับบารมีสุดเท่!</p>
+            </div>
+            <div style="text-align: right; background: #fffaf5; padding: 15px 25px; border-radius: 12px; border: 1px solid #f3e9dc;">
+                <span style="font-size: 0.9rem; color: #6f4e37;">แต้มของคุณ</span>
+                <h2 style="color: #b78a5b; font-size: 2.5rem; line-height: 1;"><span id="shopPoints">0</span> <span style="font-size: 1rem;">แต้ม</span></h2>
+            </div>
+        </div>
+
+        <div class="admin-menu">
+            <button class="admin-tab active" id="tabGachaBtn">ตู้สุ่มฉายา (Gacha)</button>
+            <button class="admin-tab" id="tabRedeemBtn">แลกส่วนลดร้านอาหาร</button>
+        </div>
+
+        <div id="tabGachaContent" class="admin-tab-content active">
+            <div class="shop-layout">
+                
+                <div class="widget">
+                    <h3 style="margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8b5a2b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                        คลังฉายาของคุณ
+                    </h3>
+                    <p style="font-size: 0.85rem; color: #8c8c8c; margin-bottom: 15px;">คลิกที่ฉายาเพื่อสวมใส่ (จะไปแสดงผลในหน้ารีวิว)</p>
+                    <div id="equippedDisplay" style="margin-bottom: 20px; padding: 10px; background: #f3f4f6; border-radius: 8px; text-align: center;">
+                        <span style="font-size: 0.9rem; color: #6f4e37;">กำลังสวมใส่: </span>
+                        <span id="currentEquippedTag" class="title-tag title-common">ไม่มีฉายา</span>
+                    </div>
+                    <div id="inventoryContainer" class="inventory-grid">
+                        <p style="grid-column: 1/-1; text-align: center; color: #aaa;">กำลังโหลดคลังฉายา...</p>
+                    </div>
+                </div>
+
+                <div class="gacha-machine" style="padding: 20px 10px;">
+                    <h2 style="font-size: 1.6rem; margin-bottom: 0;">ตู้สุ่มฉายานักชิม</h2>
+                    <p style="color: #6f4e37; font-size: 0.9rem; margin-bottom: 15px;">หมุน 1 ครั้ง ใช้ <strong>50 แต้ม</strong></p>
+                    
+                    <div class="foodie-gacha-wrapper">
+                        
+                        <div class="gacha-chef-hat">
+                            <div class="hat-puffs">
+                                <div class="puff p1"></div>
+                                <div class="puff p2"></div>
+                                <div class="puff p3"></div>
+                                <div class="puff-base"></div>
+                            </div>
+                            <div class="gacha-hat-band"></div>
+                        </div>
+                        
+                        <div class="gacha-body">
+                            <div class="gacha-glass">
+                                <div class="g-ball gb-1"></div><div class="g-ball gb-2"></div>
+                                <div class="g-ball gb-3"></div><div class="g-ball gb-4"></div>
+                                <div class="g-ball gb-5"></div><div class="g-ball gb-6"></div>
+                                <div class="g-ball gb-7"></div><div class="g-ball gb-8"></div>
+                                <div class="g-ball gb-9"></div><div class="g-ball gb-10"></div>
+                                <div class="g-ball gb-11"></div><div class="g-ball gb-12"></div>
+                                <div class="g-ball gb-13"></div><div class="g-ball gb-14"></div>
+                                <div class="g-ball gb-15"></div><div class="g-ball gb-16"></div>
+                                <div class="g-ball gb-17"></div><div class="g-ball gb-18"></div>
+                                <div class="g-ball gb-19"></div><div class="g-ball gb-20"></div>
+                            </div>
+                            <div class="gacha-base">
+                                <div class="gacha-sign">FOODIE GACHA</div>
+                                <div class="gacha-knob" id="gachaKnob"></div>
+                                <div class="gacha-dispenser">
+                                    <div class="g-drop-ball" id="gDropBall"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="gachaRollBtn" class="gacha-btn">เริ่มสุ่มเลย! (50 แต้ม)</button>
+                    <div style="margin-top: 25px; padding: 15px; background: rgba(255,255,255,0.6); border-radius: 12px; border: 1px solid rgba(255,255,255,0.8); text-align: center; box-shadow: inset 0 2px 5px rgba(255,255,255,1);">
+                        <strong style="color: #6f4e37; font-size: 0.85rem; display: block; margin-bottom: 8px;">อัตราการดรอป (Drop Rate)</strong>
+                        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 18px; font-size: 0.8rem; color: #6b7280;">
+                            <span style="display: flex; align-items: center; gap: 4px;">⚪ Common <strong style="color: #4a4a4a;">50%</strong></span>
+                            <span style="display: flex; align-items: center; gap: 4px;">🟢 Uncommon <strong style="color: #16a34a;">30%</strong></span>
+                            <span style="display: flex; align-items: center; gap: 4px;">🔵 Rare <strong style="color: #2563eb;">12%</strong></span>
+                            <span style="display: flex; align-items: center; gap: 4px;">🟣 SR <strong style="color: #9333ea;">5%</strong></span>
+                            <span style="display: flex; align-items: center; gap: 4px;">🟡 UR <strong style="color: #d97706;">2.5%</strong></span>
+                            <span style="display: flex; align-items: center; gap: 4px;">🌈 SEC <strong style="color: #dc2626;">0.5%</strong></span>
+                        </div>
+                        <button id="viewDexBtn" class="btn-outline" style="margin-top: 15px;">ดูสมุดภาพฉายาทั้งหมด</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tabRedeemContent" class="admin-tab-content">
+            <div style="background: white; border: 1px solid #f1e6d9; border-radius: 20px; padding: 80px 20px; text-align: center; box-shadow: 0 4px 10px rgba(139, 90, 43, 0.05);">
+                <div style="font-size: 4rem; margin-bottom: 10px;">⏳</div>
+                <h2 style="color: #8b5a2b; margin-bottom: 5px; font-size: 2.2rem; font-family: 'Playfair Display', serif;">Coming Soon!</h2>
+                <h3 style="color: #6f4e37; margin-bottom: 20px; font-weight: 500;">ยังไม่มีรายการส่วนลดในขณะนี้</h3>
+                <p style="color: #8c8c8c; margin-bottom: 30px; line-height: 1.6; max-width: 500px; margin-left: auto; margin-right: auto;">
+                    ในอนาคตคุณจะสามารถนำแต้ม Foodie Points ที่สะสมไว้<br>มาแลกเป็นคูปองส่วนลดจากร้านอาหารพาร์ทเนอร์ของเราได้ที่นี่!
+                </p>
+                <div style="padding: 10px 25px; background: #fffaf5; color: #8b5a2b; border-radius: 50px; display: inline-block; font-size: 0.95rem; font-weight: bold; border: 1px dashed #d2a679;">
+                    🛠️ ระบบกำลังอยู่ในระหว่างการพัฒนา
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="rewardModal" class="modal">
+        <div class="modal-content" style="text-align: center; max-width: 400px; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);">
+            <h2 style="color: #8b5a2b; margin-bottom: 10px;">ยินดีด้วย! คุณได้รับ</h2>
+            <div style="margin: 30px 0;">
+                <span id="rewardTag" class="title-tag" style="font-size: 1.5rem; padding: 10px 20px;">???</span>
+            </div>
+            <button id="closeRewardBtn" class="btn-primary" style="width: 100%;">ยอดเยี่ยม!</button>
+        </div>
+    </div>
+
+    <div id="dexModal" class="modal">
+        <div class="modal-content" style="max-width: 550px;">
+            <span class="close-btn" id="closeDexModal">&times;</span>
+            <h2 style="color: #8b5a2b; margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+                สมุดภาพฉายา (Title Index)
+            </h2>
+            <p style="font-size: 0.9rem; color: #8c8c8c; margin-bottom: 20px;">รายการฉายาทั้งหมดในตู้กาชาปอง พร้อมเอฟเฟกต์สุดพิเศษตามระดับความหายาก</p>
+            <div id="dexContainer" style="display: flex; flex-direction: column; gap: 15px; max-height: 50vh; overflow-y: auto; padding-right: 10px;"></div>
+        </div>
+    </div>
+
+    <div id="toastNotification" class="toast"></div>
+
+    <script type="module" src="shop.js"></script>
+</body>
+</html>
