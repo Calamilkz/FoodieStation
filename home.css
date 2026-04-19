@@ -687,34 +687,7 @@ h3 { color: #6f4e37; margin-bottom: 15px; font-size: 1.1rem; }
     margin-left: auto; /* 🌟 คำสั่งนี้จะดันกลุ่มปุ่มไปชิดขอบขวาของการ์ดอัตโนมัติ */
 }
 
-/* 📱 จัดระเบียบตอนดูบนมือถือ (หน้าจอเล็ก) */
-@media (max-width: 768px) {
-    .profile-header-new {
-        flex-direction: column;
-        text-align: center;
-        padding: 30px 20px;
-    }
-    .profile-avatar-container-new {
-        margin-right: 0;
-        margin-bottom: 15px;
-    }
-    .profile-info-wrapper {
-        align-items: center;
-    }
-    .stat-item-new {
-        align-items: center;
-    }
-    .profile-stats-new {
-        justify-content: center;
-        gap: 20px;
-    }
-    .profile-actions-wrapper {
-        margin-left: 0;
-        justify-content: center;
-        width: 100%;
-        margin-top: 15px;
-    }
-}
+
 /* 🌟 ปุ่ม "ติดตาม" (เข้ากับธีมสีน้ำตาล) */
 .btn-follow { 
     background-color: #8b5a2b; 
@@ -909,8 +882,9 @@ h3 { color: #6f4e37; margin-bottom: 15px; font-size: 1.1rem; }
    ========================================= */
 
 @media (max-width: 850px) {
+    /* 🤌หน้า Home */
     /* 🌟 ปิดไม่ให้จอเบ้ซ้ายขวาเด็ดขาด */
-    html, body { overflow-x: hidden; width: 100%; position: relative; }
+    html, body { overflow-x: clip; width: 100%; position: relative; }
     
     /* ซ่อนปุ่มออกระบบ */
     #logoutBtn { display: none !important; }
@@ -933,6 +907,7 @@ h3 { color: #6f4e37; margin-bottom: 15px; font-size: 1.1rem; }
     .main-layout {
         display: flex;
         flex-direction: column;
+        align-items: stretch;
     }
     .sidebar-ads { order: 1; margin-bottom: 0;}   /* โฆษณาอยู่บนสุด */
     .sidebar-left { order: 2; position: relative; top: 0;}  /* ตัวกรองตามมา (ปิด sticky ในมือถือ) */
@@ -952,5 +927,32 @@ h3 { color: #6f4e37; margin-bottom: 15px; font-size: 1.1rem; }
     .rest-desc, .review-text, .reply-text {
         word-wrap: break-word;
         overflow-wrap: break-word;
+    }
+
+    /* 🤌หน้า Profile */
+    .profile-header-new {
+        flex-direction: column;
+        text-align: center;
+        padding: 30px 20px;
+    }
+    .profile-avatar-container-new {
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+    .profile-info-wrapper {
+        align-items: center;
+    }
+    .stat-item-new {
+        align-items: center;
+    }
+    .profile-stats-new {
+        justify-content: center;
+        gap: 20px;
+    }
+    .profile-actions-wrapper {
+        margin-left: 0;
+        justify-content: center;
+        width: 100%;
+        margin-top: 15px;
     }
 }

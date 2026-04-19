@@ -289,32 +289,32 @@ function renderUsers() {
                 
                 ${banDetailHtml}
 
-                <div style="display:flex; gap:15px; margin-top:15px; flex-wrap:wrap;">
+                <div style="display:flex; flex-direction:column; gap:15px; margin-top:15px;">
                     
-                    <div style="background:#f3f4f6; padding:10px; border-radius:8px; border:1px solid #e5e7eb; display:flex; gap:10px; align-items:center;">
+                    <div style="background:#f3f4f6; padding:10px; border-radius:8px; border:1px solid #e5e7eb; display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
                         ${isBanned ? 
-                            `<button class="btn-approve unban-user-btn" data-id="${data.id}" style="background:#2563eb; width:100px;">ปลดแบน</button>` : 
+                            `<button class="btn-approve unban-user-btn" data-id="${data.id}" style="background:#2563eb; width:100%;">ปลดแบน</button>` : 
                             `
-                            <input type="text" class="ban-reason-input" data-id="${data.id}" placeholder="ระบุสาเหตุการแบน..." style="width:150px; padding:6px; border:1px solid #d1d5db; border-radius:6px; font-size:0.85rem;">
-                            <select class="ban-duration-select" data-id="${data.id}" style="padding:6px; border:1px solid #d1d5db; border-radius:6px; font-size:0.85rem;">
+                            <input type="text" class="ban-reason-input" data-id="${data.id}" placeholder="ระบุสาเหตุการแบน..." style="flex: 1; max-width:150px; padding:6px; border:1px solid #d1d5db; border-radius:6px; font-size:0.85rem;">
+                            <select class="ban-duration-select" data-id="${data.id}" style="flex: 1; max-width:100px; padding:6px; border:1px solid #d1d5db; border-radius:6px; font-size:0.85rem;">
                                 <option value="5">5 นาที</option>
                                 <option value="10">10 นาที</option>
                                 <option value="60">1 ชั่วโมง</option>
                                 <option value="1440">1 วัน</option>
                                 <option value="perm">ถาวร</option>
                             </select>
-                            <button class="btn-reject ban-user-btn" data-id="${data.id}" style="width:100px;">แบนผู้ใช้</button>
+                            <button class="btn-reject ban-user-btn" data-id="${data.id}" style="max-width:120px; white-space: nowrap;">แบนผู้ใช้</button>
                             `
                         }
                     </div>
 
-                    <div style="background:#fffaf5; padding:10px; border-radius:8px; border:1px solid #f1e6d9; display:flex; gap:10px; align-items:center;">
-                        <input type="number" class="points-input" data-id="${data.id}" placeholder="ระบุพ้อยท์" style="width:100px; padding:6px; border:1px solid #d2a679; border-radius:6px;">
-                        <button class="btn-approve add-pts-btn" data-id="${data.id}" data-current="${data.points || 0}" style="padding:6px 12px;">เพิ่ม/ลดแต้ม</button>
+                    <div style="background:#fffaf5; padding:10px; border-radius:8px; border:1px solid #f1e6d9; display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+                        <input type="number" class="points-input" data-id="${data.id}" placeholder="ระบุพ้อยท์" style="flex: 1; max-width:150px; padding:6px; border:1px solid #d2a679; border-radius:6px;">
+                        <button class="btn-approve add-pts-btn" data-id="${data.id}" data-current="${data.points || 0}" style="flex: 1; max-width:120px; padding:6px 12px; white-space: nowrap;">เพิ่ม/ลดแต้ม</button>
                     </div>
 
                     <div style="background:#fffaf5; padding:10px; border-radius:8px; border:1px solid #f1e6d9; display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-                            <select class="title-class-select" data-id="${data.id}" style="padding:6px; border:1px solid #d2a679; border-radius:6px; font-family:'Kanit';">
+                            <select class="title-class-select" data-id="${data.id}" style="flex: 1; max-width:180px; padding:6px; border:1px solid #d2a679; border-radius:6px; font-family:'Kanit';">
                                 <option value="" disabled selected>-- มอบฉายา --</option>
                                 <option value="title-special">Special</option>
                                 <option value="title-sec">SEC</option>
@@ -324,8 +324,8 @@ function renderUsers() {
                                 <option value="title-uncommon">Uncommon</option>
                                 <option value="title-common">Common</option>
                             </select>
-                            <input type="text" class="title-name-input" data-id="${data.id}" placeholder="ระบุชื่อฉายา..." style="width:120px; padding:6px; border:1px solid #d2a679; border-radius:6px;">
-                            <button class="btn-approve add-title-btn" data-id="${data.id}" style="padding:6px 12px;">ส่งฉายาให้</button>
+                            <input type="text" class="title-name-input" data-id="${data.id}" placeholder="ระบุชื่อฉายา..." style="flex: 1; max-width: 150px; padding:6px; border:1px solid #d2a679; border-radius:6px;">
+                            <button class="btn-approve add-title-btn" data-id="${data.id}" style="max-width:120px; padding:6px 12px; white-space: nowrap;">ส่งฉายาให้</button>
                     </div>
 
                 </div>

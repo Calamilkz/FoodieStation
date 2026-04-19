@@ -555,7 +555,7 @@ function renderPagination() {
     const totalPages = Math.ceil(filteredPlaces.length / itemsPerPage);
     if (totalPages <= 1) return; 
     const paginationContainer = document.createElement('div');
-    paginationContainer.style = 'display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 30px; padding-bottom: 30px;';
+    paginationContainer.style = 'display: flex; justify-content: center; gap: 150px; flex-wrap: wrap; margin-top: 30px; padding-bottom: 30px;';
     const btnStyle = 'background: transparent; border: none; color: #8b5a2b; font-family: Kanit, sans-serif; font-size: 16px; font-weight: 500; cursor: pointer; transition: color 0.2s ease; padding: 10px;';
 
     const prevBtn = document.createElement('button'); prevBtn.innerText = '< ย้อนกลับ';
