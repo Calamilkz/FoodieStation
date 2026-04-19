@@ -555,7 +555,7 @@ function renderPagination() {
     const totalPages = Math.ceil(filteredPlaces.length / itemsPerPage);
     if (totalPages <= 1) return; 
     const paginationContainer = document.createElement('div');
-    paginationContainer.style = 'display: flex; justify-content: center; gap: 150px; margin-top: 30px; padding-bottom: 30px;';
+    paginationContainer.style = 'display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 30px; padding-bottom: 30px;';
     const btnStyle = 'background: transparent; border: none; color: #8b5a2b; font-family: Kanit, sans-serif; font-size: 16px; font-weight: 500; cursor: pointer; transition: color 0.2s ease; padding: 10px;';
 
     const prevBtn = document.createElement('button'); prevBtn.innerText = '< ย้อนกลับ';
@@ -741,5 +741,30 @@ document.addEventListener("DOMContentLoaded", () => {
     // 3. สั่งให้เริ่มสังเกตการณ์ .profile-header-card โดยเรียกใช้ฟังก์ชั่น observer
     observer.observe(communityBanner);
 });
+
+// ==========================================
+// 🌟 ระบบย้ายปุ่มแอดมิน (Responsive DOM Relocation)
+// ==========================================
+function adjustAdminButtonLayout() {
+    const adminBtn = document.getElementById('adminPanelBtnUI');
+    const mobileSlot = document.getElementById('mobileAdminSlot');
+    const desktopSlot = document.getElementById('desktopAdminSlot');
+
+    // ถ้ายังโหลดไม่เสร็จ หรือหาปุ่มไม่เจอ ให้ข้ามไปก่อน
+    if (!adminBtn || !mobileSlot || !desktopSlot) return;
+
+    if (window.innerWidth <= 850) {
+        // ถัาจอมือถือ (<= 850px) สั่งอุ้มปุ่มไปวางไว้ที่ช่องข้างโลโก้
+        mobileSlot.appendChild(adminBtn);
+    } else {
+        // ถ้าจอคอม อุ้มปุ่มกลับมาวางที่ช่องเดิมฝั่ง User Menu
+        desktopSlot.appendChild(adminBtn);
+    }
+}
+
+// 1. รันเช็กทันทีตอนเปิดเว็บครั้งแรก
+window.addEventListener('DOMContentLoaded', adjustAdminButtonLayout);
+// 2. รันเช็กทุกครั้งที่มีการย่อ/ขยายหน้าต่างเบราว์เซอร์
+window.addEventListener('resize', adjustAdminButtonLayout);
 
 seedDatabaseIfEmpty();

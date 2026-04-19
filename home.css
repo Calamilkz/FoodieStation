@@ -889,3 +889,68 @@ h3 { color: #6f4e37; margin-bottom: 15px; font-size: 1.1rem; }
     background: rgba(255,255,255,0.4); 
     transform: translateY(-50%) scale(1.15); /* ขยายขนาดตอนชี้ */
 }
+.admin-moblie { display: none;}
+/* 🌟 จัดการ Grid บน Desktop (บังคับให้อยู่ 3 คอลัมน์ และให้กล่องชิดกัน) */
+.main-layout { 
+    align-items: start; /* 🌟 หัวใจสำคัญ: ป้องกันไม่ให้แถบด้านข้างยืดตามความสูงของฟีดตรงกลาง */
+    grid-template-rows: auto 1fr; /* แถวแรกพอดีเนื้อหากาชา แถวสองกินพื้นที่ที่เหลือ */
+}
+.sidebar-left { 
+    grid-column: 1; 
+    grid-row: 1 / span 2; 
+    top: 90px; 
+}
+.feed-content { grid-column: 2; grid-row: 1 / span 2; }
+.sidebar-right { grid-column: 3; grid-row: 1; margin-bottom: 15px; } /* สร้างระยะห่างระหว่างกาชากับโฆษณา */
+.sidebar-ads { grid-column: 3; grid-row: 2; display: flex; flex-direction: column; gap: 20px; }
+
+/* =========================================
+   แก้ไขปัญหาและปรับแต่ง UI สำหรับมือถือ
+   ========================================= */
+
+@media (max-width: 850px) {
+    /* 🌟 ปิดไม่ให้จอเบ้ซ้ายขวาเด็ดขาด */
+    html, body { overflow-x: hidden; width: 100%; position: relative; }
+    
+    /* ซ่อนปุ่มออกระบบ */
+    #logoutBtn { display: none !important; }
+
+    /* แปลงปุ่มแอดมินเป็นเฟืองวงกลม */
+    #adminPanelBtnUI {
+        padding: 8px !important;
+        border-radius: 50% !important;
+        width: 38px;
+        height: 38px;
+        justify-content: center;
+    }
+    #adminPanelBtnUI .admin-text { display: none; }
+    #adminPanelBtnUI .admin-icon-desktop { width: 20px; height: 20px; }
+
+    /* ปรับให้แถบโลโก้กางเต็มที่ */
+    .nav-brand-row { width: 100%; }
+
+    /* ดันกล่องกาชาและเควสไปไว้ล่างสุดของหน้าจอ */
+    .main-layout {
+        display: flex;
+        flex-direction: column;
+    }
+    .sidebar-ads { order: 1; margin-bottom: 0;}   /* โฆษณาอยู่บนสุด */
+    .sidebar-left { order: 2; position: relative; top: 0;}  /* ตัวกรองตามมา (ปิด sticky ในมือถือ) */
+    .feed-content { order: 3; }  /* ฟีดร้านอาหารอยู่ตรงกลาง */
+    .sidebar-right { order: 4; margin-top: 20px; margin-bottom: 0; } /* เควส/กาชาไปอยู่ล่างสุด */
+
+    .profile-name-new {
+        flex-direction: column;
+    }
+
+    .user-menu, #loggedInUserUI {
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+    }
+
+    /* 🌟 เพิ่ม 2: การ์ดรีวิวบางอันอาจมีคำยาวๆ ทะลุจอ สั่งให้ตัดคำอัตโนมัติ */
+    .rest-desc, .review-text, .reply-text {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+}
