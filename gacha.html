@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foodie Station - สุ่มร้านอร่อย</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="home.css">
+    <link rel="icon" href="Scene/FoodieLogo.png">
+    <style>
+        :root {
+            --cream-50: #fdfaf7; --cream-100: #fbf5ec; --cream-200: #f3e9dc;
+            --tan-300: #e6cfae; --tan-400: #d2a679; --tan-500: #b5835a;
+            --brown-600: #8b5a2b; --brown-700: #6f4e37;
+            --accent-red: #ff4757; --accent-red-dark: #d63031;
+            --shadow-warm: 0 10px 30px rgba(139, 90, 43, 0.08);
+            --shadow-soft: 0 4px 14px rgba(139, 90, 43, 0.06);
+        }
+
+        * { box-sizing: border-box; }
+        html, body { margin: 0; padding: 0; min-height: 100vh; font-family: 'Kanit', sans-serif; color: var(--brown-700); overflow-x: hidden; }
+        
+        body { background: radial-gradient(circle at 50% 50%, #fffaf3 0%, #f7ecdb 100%) !important; }
+
+        .hero-card {
+            background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(10px);
+            border-radius: 28px; padding: 30px; text-align: center;
+            border: 1.5px solid rgba(210, 166, 121, 0.3); width: 100%; max-width: 420px;
+        }
+
+        .custom-select {
+            width: 100%; padding: 12px; margin-top: 15px; border-radius: 12px;
+            border: 2px solid var(--cream-200); font-family: 'Kanit'; font-size: 1rem;
+        }
+
+        input[type=range] { width: 100%; accent-color: var(--brown-600); cursor: pointer; }
+
+        .gacha-viewport { display: flex; flex-direction: column; align-items: center; padding: 40px 20px; min-height: 80vh; }
+        
+        .star-gold { color: #ffcc00; font-size: 1.5rem; margin: 10px 0; text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .dist-badge { background: #fffaf5; border: 1px solid #d2a679; color: #8b5a2b; padding: 5px 15px; border-radius: 20px; font-weight: 500; font-size: 0.9rem; }
+
+        /* =======================================
+           🌟 สไตล์สำหรับมาสคอต (ลุง Tako)
+           ======================================= */
+        #mainGifContainer {
+            margin-top: 25px; cursor: pointer; 
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        #mainGifContainer:hover { transform: scale(1.05); }
+        
+        #hintText {
+            margin-top: 15px; font-weight: 500; color: var(--brown-600); 
+            background: white; padding: 12px 30px; border-radius: 50px; 
+            border: 2px dashed var(--tan-300); cursor: pointer; 
+            box-shadow: var(--shadow-soft); font-size: 1.05rem; transition: all 0.2s;
+        }
+        #hintText:hover { background: var(--cream-100); border-style: solid; }
+
+        /* =======================================
+           🌟 สไตล์สำหรับ Video Pop-up กลางจอ
+           ======================================= */
+        #mediaModal {
+            display: none; position: fixed; inset: 0; 
+            align-items: center; justify-content: center; 
+            background: rgba(0,0,0,0.85); z-index: 9998;
+        }
+
+        .media-popup {
+            position: relative; width: 800px; height: 800px;
+            border-radius: 24px; overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.8);
+            background: #000;
+            opacity: 0; transform: translateY(50px); /* ซ่อนอยู่ด้านล่างนิดๆ */
+        }
+
+        /* อนิเมชันลอยขึ้นและเฟดเข้า */
+        .media-popup.show { animation: popupFadeInUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        /* อนิเมชันเฟดหายเร็วๆ ตอนออก */
+        .media-popup.hide { animation: popupFadeOut 0.2s ease forwards; }
+
+        @keyframes popupFadeInUp { to { opacity: 1; transform: translateY(0); } }
+        @keyframes popupFadeOut { to { opacity: 0; transform: translateY(-20px); } }
+
+        /* 🌟 ปุ่ม Skip */
+        #skipGachaBtn {
+            position: absolute; top: 15px; right: 15px; z-index: 10;
+            background: transparent; border: none; color: white;
+            font-size: 1.4rem; font-weight: 900; cursor: pointer; font-family: 'Kanit';
+            opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
+            text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000, 0 4px 6px rgba(0,0,0,0.5);
+        }
+        #skipGachaBtn.show { opacity: 1; pointer-events: auto; }
+
+        @media (max-width: 640px) {
+            .media-popup { width: 400px; height: 400px; }
+            #statusText { font-size: 1.8rem !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="home.html" class="brand-link" title="กลับหน้าหลัก">
+                <h1 class="brand-title">Foodie<span>Station</span></h1>
+            </a>
+        </div>
+    </nav>
+
+    <div class="gacha-viewport">
+        <div class="hero-card">
+            <div style="font-size: 0.8rem; letter-spacing: 2px; color: var(--tan-500); font-weight: bold; margin-bottom: 5px;">FOODIE GACHA</div>
+            <h2 id="statusText" style="font-size: 2.2rem; color: var(--brown-700); margin-bottom: 10px;">สุ่มลายแทงร้านอร่อย</h2>
+            
+            <select id="provinceSelect" class="custom-select">
+                <option value="near_me">📍 เลือกพื้นที่ใกล้เคียง</option>
+                </select>
+
+            <div id="distanceFilterBox" style="margin-top: 20px; display: flex; flex-direction: column; gap: 8px;">
+                <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+                    <span>รัศมีการสุ่ม</span>
+                    <span id="distVal" style="font-weight: bold; color: var(--brown-600);">5 กม.</span>
+                </div>
+                <input type="range" id="distRange" min="1" max="20" value="5">
+            </div>
+        </div>
+
+        <div id="mainGifContainer">
+            <img src="Scene/tako waiting gif.gif" style="width: 280px; height: 280px; object-fit: contain; filter: drop-shadow(0 15px 25px rgba(139,90,43,0.15));border-radius: 10%;" alt="Uncle Tako">
+        </div>
+        
+        <p id="hintText">💬 ลองคุยกับลุง Tako สิ! ไม่แน่ลุงอาจจะบอกร้านลับที่ไม่เคยบอกใครมาก่อน!!</p>
+    </div>
+
+    <div id="mediaModal">
+        <div id="videoPopup" class="media-popup">
+            <video id="gachaVideo" src="Scene/tako waiting animation.mp4" playsinline style="width: 100%; height: 100%; object-fit: cover;"></video>
+            <button id="skipGachaBtn">Skip ➔</button>
+        </div>
+    </div>
+
+    <div id="resultModal" class="modal" style="display: none; position: fixed; inset: 0; align-items: center; justify-content: center; background: rgba(0,0,0,0.85); z-index: 10001;">
+        <div class="modal-content" style="max-width: 460px; width: 92%; text-align: center; border-radius: 28px; overflow: hidden; padding: 0;">
+            <div style="background: linear-gradient(135deg, var(--brown-600), var(--tan-500)); color: white; padding: 15px; font-weight: bold;">
+                ร้านที่สุ่มได้คือ...
+            </div>
+            <div id="restaurantInfo" style="padding: 25px; background: white;"></div>
+            <div style="padding: 0 25px 25px; background: white; display: flex; flex-direction: column; gap: 10px;">
+                <button id="retryGachaBtn" class="btn-primary" style="width: 100%;">สุ่มใหม่อีกครั้ง</button>
+                <button id="backToHomeBtn" class="btn-outline" style="width: 100%; border: 1px solid #ddd; border-radius: 50px; padding: 10px;">กลับหน้าหลัก</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="flashOverlay" class="flash-screen" style="position: fixed; inset: 0; background: white; opacity: 0; pointer-events: none; z-index: 9999;"></div>
+
+    <script type="module" src="gacha.js"></script>
+</body>
+</html>
