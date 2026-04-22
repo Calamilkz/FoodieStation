@@ -1,0 +1,364 @@
+/* --- Global Styles --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body, html {
+    height: 100%;
+    font-family: 'Kanit', sans-serif;
+    background-color: #faf8f5; 
+    color: #4a4a4a;
+    overflow-x: hidden;
+}
+
+.main-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    padding: 20px;
+    background-image: linear-gradient(rgba(250, 248, 245, 0.85), rgba(250, 248, 245, 0.95)), 
+                      url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1920&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+}
+
+.login-container {
+    background-color: white;
+    padding: 40px 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(183, 138, 91, 0.15); 
+    width: 100%;
+    max-width: 450px;
+    border: 1px solid #f1e6d9;
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.brand-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    color: #8b5a2b;
+}
+
+.brand-title span {
+    color: #d2a679;
+}
+
+.brand-subtitle {
+    font-size: 0.95rem;
+    color: #a67c52;
+}
+
+.auth-form {
+    display: none;
+    opacity: 0;
+}
+
+.auth-form.active {
+    display: block;
+    opacity: 1;
+}
+
+h2 {
+    color: #6f4e37;
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.section-desc {
+    text-align: center;
+    color: #8c8c8c;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    margin-top: -10px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+input {
+    width: 100%;
+    padding: 12px 18px;
+    border: 2px solid #f3e9dc;
+    border-radius: 12px;
+    font-size: 1rem;
+    background-color: #fffaf5;
+    font-family: 'Kanit', sans-serif;
+    transition: all 0.2s ease;
+}
+
+input:focus {
+    outline: none;
+    border-color: #d2a679;
+    box-shadow: 0 0 0 3px rgba(210, 166, 121, 0.15);
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 500;
+    font-family: 'Kanit', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+button:active {
+    transform: translateY(1px);
+}
+
+.btn-primary {
+    background-color: #8b5a2b;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #6f4e37;
+    box-shadow: 0 4px 12px rgba(111, 78, 55, 0.2);
+}
+
+.btn-highlight {
+    background-color: #d2a679;
+    color: white;
+}
+
+.btn-highlight:hover {
+    background-color: #b78a5b;
+    box-shadow: 0 4px 12px rgba(183, 138, 91, 0.2);
+}
+
+.form-footer {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #8c8c8c;
+}
+
+.form-footer a {
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.form-footer a:hover {
+    text-decoration: underline;
+}
+
+.link-secondary {
+    color: #a67c52;
+}
+
+.link-highlight {
+    color: #b78a5b;
+    font-weight: 500;
+}
+
+.separator {
+    margin: 0 10px;
+    color: #e0e0e0;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    margin: 25px 0;
+    color: #a67c52;
+    font-size: 0.85rem;
+}
+
+.divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #f1e6d9;
+}
+
+.divider span {
+    padding: 0 10px;
+}
+
+/* --- Social Buttons (ฉบับปรับปรุงใหม่ให้ขอบเหมือนกัน) --- */
+.btn-social {
+    background-color: white;
+    color: #444;
+    border: 1.5px solid #d2a679; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-bottom: 12px;
+    margin-top: 0;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    width: 100%;
+    padding: 12px;
+}
+
+/* 1. เอฟเฟกต์เวลาเอาเมาส์ไปชี้ (Hover) - เปลี่ยนเป็นสีครีมนุ่มนวล */
+.btn-social:hover {
+    background-color: #f3e9dc !important; 
+    border-color: #b78a5b !important; 
+    color: #8b5a2b !important; 
+    box-shadow: 0 2px 8px rgba(139, 90, 43, 0.1); 
+}
+
+.btn-social img, .btn-social svg {
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+.btn-facebook {
+    color: #1877f2; 
+}
+
+/* --- ปุ่ม Guest (เพิ่มใหม่) --- */
+.btn-guest {
+    border-color: #d2a679; 
+    color: #a67c52; 
+    background-color: #fdfaf6; 
+}
+
+.btn-guest:hover {
+    background-color: #f3e9dc; 
+    border-color: #8b5a2b; 
+}
+
+.btn-guest svg {
+    stroke: currentColor; 
+    transition: stroke 0.2s ease-in-out;
+}
+
+/* 2. จัดการไอคอน Guest เวลา Hover (ให้เปลี่ยนสีตาม text) */
+.btn-guest:hover svg {
+    stroke: #8b5a2b !important; 
+}
+
+.message-container {
+    margin-top: 20px;
+    padding: 12px 18px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    text-align: center;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.message-container.show {
+    display: block;
+    opacity: 1;
+}
+
+.message-container.success {
+    background-color: #e6f4ea;
+    color: #1e7e34;
+    border: 1px solid #c3e6cb;
+}
+
+.message-container.error {
+    background-color: #fdf2f2;
+    color: #a71d2a;
+    border: 1px solid #f5c6cb;
+}
+
+/* =========================================
+   🌟 Responsive Design (Mobile vs PC)
+   ========================================= */
+
+/* โครงสร้างพื้นฐานของกล่อง Split Card */
+.login-split-card {
+    display: flex;
+    width: 100%;
+    max-width: 450px; 
+    background: transparent;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+/* ฝั่งซ้าย (ซ่อนในหน้าจอมือถือ) */
+.login-left-side {
+    display: none; 
+}
+
+/* ฝั่งขวา (ฟอร์มล็อกอิน) */
+.login-right-side {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+/* 💻 🌟 กฎสำหรับจอใหญ่ (PC / Macbook / Tablet แนวนอน) 🌟 💻 */
+@media (min-width: 850px) {
+    .login-split-card {
+        max-width: 1000px;
+        min-height: 600px;
+        background: white;
+        box-shadow: 0 15px 35px rgba(139, 90, 43, 0.2);
+    }
+
+    /* เปิดฝั่งซ้ายให้โชว์ขึ้นมา และใส่รูปพื้นหลัง */
+    .login-left-side {
+        display: flex;
+        flex: 1.2; 
+        background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)),
+                    url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1080&auto=format&fit=crop');
+        background-size: cover;
+        background-position: center;
+        color: white;
+        flex-direction: column;
+        justify-content: center;
+        padding: 50px;
+        text-align: left;
+    }
+
+    .left-content h1 {
+        font-family: 'Playfair Display', serif;
+        font-size: 3.5rem;
+        margin-bottom: 10px;
+        color: white;
+    }
+
+    .left-content h1 span {
+        color: #d2a679;
+    }
+
+    .left-content p {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        color: #f3e9dc;
+    }
+
+    .login-right-side {
+        flex: 1;
+        padding: 40px;
+    }
+
+    /* เอาเงาและกรอบของกล่องฟอร์มเดิมออก เพราะเราใช้เงาของกล่องใหญ่แทนแล้ว */
+    .login-right-side .login-container {
+        box-shadow: none;
+        border: none;
+        padding: 0;
+        max-width: 350px; 
+    }
+
+    /* ซ่อนโลโก้ด้านบนฟอร์ม เพราะฝั่งซ้ายมีโลโก้ใหญ่ๆ โชว์อยู่แล้ว */
+    .mobile-brand {
+        display: none; 
+    }
+}

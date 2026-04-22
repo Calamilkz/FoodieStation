@@ -877,6 +877,40 @@ h3 { color: #6f4e37; margin-bottom: 15px; font-size: 1.1rem; }
 .sidebar-right { grid-column: 3; grid-row: 1; margin-bottom: 15px; } /* สร้างระยะห่างระหว่างกาชากับโฆษณา */
 .sidebar-ads { grid-column: 3; grid-row: 2; display: flex; flex-direction: column; gap: 20px; }
 
+/* 🌟 สไตล์แท็กร้านมาแรง & ยอดเยี่ยม (ประยุกต์จาก Super Rare) */
+.trend-tag-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+.trend-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    animation: pulseGlow 2s infinite;
+}
+.trend-tag.top-reviewed {
+    background: linear-gradient(135deg, #fef08a 0%, #eab308 100%);
+    color: #713f12;
+    border: 1px solid #ca8a04;
+}
+.trend-tag.trending {
+    background: linear-gradient(135deg, #fecaca 0%, #ef4444 100%);
+    color: #7f1d1d;
+    border: 1px solid #b91c1c;
+}
+@keyframes pulseGlow {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); }
+}
+
 /* =========================================
    แก้ไขปัญหาและปรับแต่ง UI สำหรับมือถือ
    ========================================= */

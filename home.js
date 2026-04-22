@@ -391,10 +391,17 @@ async function fetchRestaurantsFromDB(provinceCode) {
     let provinceCounts = {}; 
 
     try {
+        // 🌟 1. ดึงรีวิวทั้งหมดมาเตรียมวิเคราะห์ (Data Gathering)
+        const revSnap = await getDocs(collection(db, "reviews"));
+        const allReviews = revSnap.docs.map(d => d.data());
+        const now = new Date();
+        const oneHourAgo = new Date(now.getTime() - (60 * 60 * 1000));
+
         const querySnapshot = await getDocs(collection(db, "restaurants"));
-        querySnapshot.forEach((doc) => {
-            const data = doc.data();
-            data.id = doc.id; 
+        
+        querySnapshot.forEach((docRef) => { // เปลี่ยนชื่อตัวแปรกันชนกับคำสั่ง doc
+            const data = docRef.data();
+            data.id = docRef.id; 
             if (data.status === "pending") return; 
 
             if (oldProvinceMap[data.province]) {
@@ -405,6 +412,15 @@ async function fetchRestaurantsFromDB(provinceCode) {
                 provinceCounts[data.province] = (provinceCounts[data.province] || 0) + 1;
             }
             
+            // 🌟 2. คำนวณสถิติรายร้าน (Data Processing)
+            const restReviews = allReviews.filter(rev => rev.restId === data.id);
+            const recentReviews = restReviews.filter(rev => new Date(rev.date) >= oneHourAgo);
+            const numericRating = parseFloat(String(data.rating || "0").replace(/[^0-9.]/g, '')) || 0;
+
+            data.totalReviews = restReviews.length;
+            data.recentReviews = recentReviews.length;
+            data.numericRating = numericRating;
+
             if (provinceCode === "near_me") {
                 if (data.lat && data.lng && userLat && userLng) {
                     const dist = calculateDistance(userLat, userLng, data.lat, data.lng);
@@ -414,6 +430,42 @@ async function fetchRestaurantsFromDB(provinceCode) {
                 allFetchedPlaces.push(data);
             }
         });
+
+        // 🌟 3. อัลกอริทึมหาแชมป์รีวิวและแชมป์มาแรง (Data Ranking)
+        let topRestId = null;
+        let trendingRestId = null;
+
+        const eligibleTop = [...allFetchedPlaces].filter(r => r.numericRating >= 4 && r.totalReviews > 0);
+        if (eligibleTop.length > 0) {
+            eligibleTop.sort((a, b) => b.totalReviews - a.totalReviews);
+            topRestId = eligibleTop[0].id;
+        }
+
+        const eligibleTrending = [...allFetchedPlaces].filter(r => r.recentReviews > 0);
+        if (eligibleTrending.length > 0) {
+            eligibleTrending.sort((a, b) => b.recentReviews - a.recentReviews);
+            trendingRestId = eligibleTrending[0].id;
+        }
+
+        // 🌟 4. อัปเดตแท็กและ Priority ลง Firebase
+        for (let r of allFetchedPlaces) {
+            let isTop = (r.id === topRestId);
+            let isTrending = (r.id === trendingRestId);
+            let newPriority = (isTop || isTrending) ? 1 : 0;
+            
+            let tagsData = {};
+            if (isTop) tagsData.isTopReviewed = true;
+            if (isTrending) tagsData.isTrending = true;
+
+            if (r.priority !== newPriority || JSON.stringify(r.trendTags || {}) !== JSON.stringify(tagsData)) {
+                await updateDoc(doc(db, "restaurants", r.id), {
+                    priority: newPriority,
+                    trendTags: tagsData
+                });
+            }
+            r.priority = newPriority;
+            r.trendTags = tagsData;
+        }
 
         const filterOptions = provinceSelect.querySelectorAll('option');
         filterOptions.forEach(opt => {
@@ -483,6 +535,9 @@ function applyFilters() {
         return passCuisine && passRating && passSearch && passDistrict;
     });
 
+    // 🌟 5. เรียง Priority (ให้ร้านที่มีแท็ก = 1 ขึ้นก่อนร้านไม่มีแท็ก = 0)
+    filteredPlaces.sort((a, b) => (b.priority || 0) - (a.priority || 0));
+
     currentPage = 1; 
     displayRestaurants();
 }
@@ -514,10 +569,18 @@ function displayRestaurants() {
         let cuisineTh = cuisineMap[place.cuisine] || 'อื่นๆ';
         let distanceHtml = place.distance ? `<span style="color: #d2a679; font-weight: bold; margin-left: 10px;">| ห่างไป ${place.distance.toFixed(1)} กม.</span>` : '';
         let cleanRating = (place.rating || "ไม่มีคะแนน").replace(/⭐/g, '★');
-        
         let districtHtml = place.district ? `${place.district}, ` : '';
 
-        // 🌟 ป้องกันการแฮก XSS ก่อนวาดขึ้นหน้าจอ
+        // 🌟 6. สร้างโค้ดป้ายแท็ก
+        let badgesHtml = "";
+        if (place.trendTags && place.trendTags.isTopReviewed) {
+            badgesHtml += `<span class="trend-tag top-reviewed">👍 ร้านรีวิวยอดเยี่ยม</span>`;
+        }
+        if (place.trendTags && place.trendTags.isTrending) {
+            badgesHtml += `<span class="trend-tag trending">🔥 ร้านมาแรง</span>`;
+        }
+        let tagsContainerHtml = badgesHtml ? `<div class="trend-tag-container">${badgesHtml}</div>` : '';
+
         const safeName = escapeHTML(place.name);
         const safeProvince = escapeHTML(place.province);
         const safeDistrict = escapeHTML(place.district);
@@ -532,7 +595,7 @@ function displayRestaurants() {
         card.innerHTML = `
             <div class="card-images"><img src="${place.img}" class="main-img" alt="${safeName}"></div>
             <div class="card-details">
-                <h2 class="rest-name">${safeName}</h2>
+                ${tagsContainerHtml} <h2 class="rest-name">${safeName}</h2>
                 <div class="rest-meta"><span class="rating">${cleanRating}</span><span class="dot">•</span><span class="reviews">(อัปเดตล่าสุด)</span>${distanceHtml}</div>
                 
                 <p class="rest-desc" style="display: flex; align-items: flex-start; gap: 6px;">
